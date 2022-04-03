@@ -1,0 +1,62 @@
+{
+  "name": "health-helper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "templateInfo": {
+    "name": "vue3-NutUI",
+    "typescript": false,
+    "css": "sass"
+  },
+  "scripts": {
+    "build:weapp": "taro build --type weapp",
+    "build:swan": "taro build --type swan",
+    "build:alipay": "taro build --type alipay",
+    "build:tt": "taro build --type tt",
+    "build:h5": "taro build --type h5",
+    "build:rn": "taro build --type rn",
+    "build:qq": "taro build --type qq",
+    "build:quickapp": "taro build --type quickapp",
+    "dev:weapp": "pnpm run build:weapp -- --watch",
+    "dev:swan": "pnpm run build:swan -- --watch",
+    "dev:alipay": "pnpm run build:alipay -- --watch",
+    "dev:tt": "pnpm run build:tt -- --watch",
+    "dev:h5": "pnpm run build:h5 -- --watch",
+    "dev:rn": "pnpm run build:rn -- --watch",
+    "dev:qq": "pnpm run build:qq -- --watch",
+    "dev:quickapp": "pnpm run build:quickapp -- --watch"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "@nutui/nutui-taro": "^3.1.8",
+    "@tarojs/components": "3.4.3",
+    "@tarojs/plugin-framework-vue3": "3.4.3",
+    "@tarojs/plugin-html": "3.4.3",
+    "@tarojs/plugin-platform-weapp": "^3.4.4",
+    "@tarojs/runtime": "3.4.3",
+    "@tarojs/taro": "3.4.3",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@tarojs/cli": "3.4.3",
+    "@tarojs/mini-runner": "3.4.3",
+    "@tarojs/webpack-runner": "3.4.3",
+    "@types/webpack-env": "^1.13.6",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-plugin-import": "^1.13.3",
+    "babel-preset-taro": "3.4.3",
+    "eslint": "^6.8.0",
+    "eslint-config-taro": "3.4.3",
+    "eslint-plugin-vue": "^7.0.0",
+    "stylelint": "9.3.0",
+    "vue-loader": "^16.0.0-beta.8"
+  }
+}
