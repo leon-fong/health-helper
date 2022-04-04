@@ -1,3 +1,4 @@
+const path = require("path");
 const config = {
   projectName: 'health-helper',
   date: '2022-4-3',
@@ -8,9 +9,10 @@ const config = {
     828: 1.81 / 2,
     375: 2 / 1
   },
+
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: ['@tarojs/plugin-html'],
+  plugins: ['taro-plugin-pinia','@tarojs/plugin-html'],
   defineConstants: {
   },
   copy: {
@@ -23,7 +25,11 @@ const config = {
   sass:{
     data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`
   },
+  alias: {
+    '~@': path.resolve(__dirname, '..', 'src'),
+  },
   mini: {
+   
     postcss: {
       pxtransform: {
         enable: true,
