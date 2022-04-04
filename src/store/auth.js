@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
+import { getUserInfo} from '~@/apis/profile.js';
+
 
 const useAuth = defineStore({
   id: 'authInfo',
   state: () => ({
     userInfo: {
-      nickName: '',
-      avatarUrl: ''
+  
     },
     isLogin: false
   }),
@@ -16,8 +17,15 @@ const useAuth = defineStore({
     logout() {
       this.isLogin = false
     },
-    setUserInfo(userInfo) {
-      this.userInfo = userInfo
+   async setUserInfo() {
+     const res = await getUserInfo()
+     if(res.code === 0){
+       this.userInfo = res.data
+       
+     }else{
+       console.log('[ err ] >',res.msg )
+     }
+     
     }
   }
 })

@@ -15,6 +15,7 @@ specifiers:
   '@tarojs/webpack-runner': 3.4.3
   '@types/webpack-env': ^1.13.6
   '@vue/compiler-sfc': ^3.0.0
+  axios-miniprogram: ^2.0.0-rc-2
   babel-plugin-import: ^1.13.3
   babel-preset-taro: 3.4.3
   eslint: ^6.8.0
@@ -35,6 +36,7 @@ dependencies:
   '@tarojs/plugin-platform-weapp': 3.4.4
   '@tarojs/runtime': 3.4.3
   '@tarojs/taro': 3.4.3
+  axios-miniprogram: 2.0.0-rc-2
   pinia: 2.0.13_vue@3.2.31
   taro-plugin-pinia: 1.0.0
   vue: 3.2.31
@@ -3169,6 +3171,11 @@ packages:
   /aws4/1.11.0:
     resolution: {integrity: sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==}
     dev: true
+
+  /axios-miniprogram/2.0.0-rc-2:
+    resolution: {integrity: sha512-GL1yDds9P/evGPqJFXIU/2VD9/9rUL7I4WnvExuocGWAfEO9oYV7DUt6Vjd5a6F1jkltVCwxtpMPQO9ZWGRZhQ==}
+    engines: {node: '>=10.0.0'}
+    dev: false
 
   /babel-code-frame/6.26.0:
     resolution: {integrity: sha1-Y/1D99weO7fONZR9uP42mj9Yx0s=}

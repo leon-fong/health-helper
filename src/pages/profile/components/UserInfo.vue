@@ -1,7 +1,7 @@
 <template>
   <article class="user-info">
-    <nut-avatar size="large" :icon="userInfo.avatarUrl"></nut-avatar>
-    <span class="ellipsis name">{{ userInfo.nickName }}</span>
+    <nut-avatar size="large" :icon="userInfo.avatar"></nut-avatar>
+    <span class="ellipsis name">{{ userInfo.userName }}</span>
   </article>
 </template>
 

@@ -2,7 +2,7 @@
   "miniprogramRoot": "./dist",
   "projectname": "health-helper",
   "description": "",
-  "appid": "touristappid",
+  "appid": "wxace28d19f45601c0",
   "setting": {
     "urlCheck": true,
     "es6": false,

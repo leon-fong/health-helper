@@ -42,6 +42,7 @@
     "@tarojs/plugin-platform-weapp": "^3.4.4",
     "@tarojs/runtime": "3.4.3",
     "@tarojs/taro": "3.4.3",
+    "axios-miniprogram": "^2.0.0-rc-2",
     "pinia": "^2.0.13",
     "taro-plugin-pinia": "^1.0.0",
     "vue": "^3.0.0"
