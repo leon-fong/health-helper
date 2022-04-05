@@ -1,9 +1,15 @@
 export default defineAppConfig({
   pages: [
-    'pages/index/index',
     'pages/profile/index',
+    'pages/index/index',
+    'pages/profile/edit',
     'pages/analysis/index',
-    'pages/record/index'
+    'pages/record/index',
+    'pages/profile/eat-suggestion',
+    'pages/profile/report',
+    'pages/record/foodRecord',
+    'pages/record/fitnessRecord',
+    'pages/record/foodList'
   ],
   "tabBar": {
     "list": [{
