@@ -97,12 +97,12 @@ class HttpRequest {
     })
   }
 
-  put(url, config){
+  put(url, data){
     return this.request({
       method: 'put',
       url: url,
-      
-    },config)
+      data 
+    })
   }
 }
 
