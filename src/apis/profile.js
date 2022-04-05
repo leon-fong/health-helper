@@ -8,8 +8,13 @@ export function getToken( code,rawData,  signature) {
   })
 }
 
-
-
 export function getUserInfo() {
   return request.get('/user')
 }
+export function editUserInfo(options) {
+  return request.put('/user/edit',options)
+}
+export function healthReport() {
+  return request.get('/user/health')
+}
+
