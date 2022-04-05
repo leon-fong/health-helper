@@ -21,7 +21,6 @@ const useAuth = defineStore({
      const res = await getUserInfo()
      if(res.code === 0){
        this.userInfo = res.data
-       
      }else{
        console.log('[ err ] >',res.msg )
      }
