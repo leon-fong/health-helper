@@ -18,9 +18,13 @@ specifiers:
   axios-miniprogram: ^2.0.0-rc-2
   babel-plugin-import: ^1.13.3
   babel-preset-taro: 3.4.3
+  dayjs: ^1.11.0
+  echarts4taro3: ^1.0.0
   eslint: ^6.8.0
   eslint-config-taro: 3.4.3
   eslint-plugin-vue: ^7.0.0
+  lodash: ^4.17.21
+  normalize.css: ^8.0.1
   pinia: ^2.0.13
   stylelint: 9.3.0
   taro-plugin-pinia: ^1.0.0
@@ -37,6 +41,10 @@ dependencies:
   '@tarojs/runtime': 3.4.3
   '@tarojs/taro': 3.4.3
   axios-miniprogram: 2.0.0-rc-2
+  dayjs: 1.11.0
+  echarts4taro3: 1.0.0
+  lodash: 4.17.21
+  normalize.css: 8.0.1
   pinia: 2.0.13_vue@3.2.31
   taro-plugin-pinia: 1.0.0
   vue: 3.2.31
@@ -4968,6 +4976,10 @@ packages:
       whatwg-url: 7.1.0
     dev: true
 
+  /dayjs/1.11.0:
+    resolution: {integrity: sha512-JLC809s6Y948/FuCZPm5IX8rRhQwOiyMb2TfVVQEixG7P8Lm/gt5S7yoQZmC8x1UehI9Pb7sksEt4xx14m+7Ug==}
+    dev: false
+
   /de-indent/1.0.2:
     resolution: {integrity: sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0=}
     dev: true
@@ -5439,6 +5451,10 @@ packages:
       jsbn: 0.1.1
       safer-buffer: 2.1.2
     dev: true
+
+  /echarts4taro3/1.0.0:
+    resolution: {integrity: sha512-mGhp6rxD3xJ6TC6vwWonxckbsTGzko6BnZd+cMktlBeaBW3NyA2OFf8nPOv17k8+EVSPf8uWHGsiAPsG9QZ4Rg==}
+    dev: false
 
   /ee-first/1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
@@ -9491,6 +9507,10 @@ packages:
     resolution: {integrity: sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==}
     engines: {node: '>=8'}
     dev: true
+
+  /normalize.css/8.0.1:
+    resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
+    dev: false
 
   /now-and-later/2.0.1:
     resolution: {integrity: sha512-KGvQ0cB70AQfg107Xvs/Fbu+dGmZoTRJp2TaPwcwQm3/7PteUyN2BCgk8KBMPGBUXZdVwyWS8fDCGFygBm19UQ==}

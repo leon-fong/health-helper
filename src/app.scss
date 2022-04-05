@@ -1,4 +1,5 @@
 page {
+  background-color: #f4f4f4;
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
 }
 
@@ -6,4 +7,43 @@ page {
 .safe-area-bottom {
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+@mixin multi-ellipsis($lines) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+}
+
+@mixin ellipsis() {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ellipsis {
+  @include ellipsis();
+}
+
+.multi-ellipsis--l2 {
+  @include multi-ellipsis(2);
+}
+
+.multi-ellipsis--l3 {
+  @include multi-ellipsis(3);
+}
+
+.wrap {
+  padding: 10px;
+}
+
+.box {
+  background-color: #fff;
+  margin: 10px 0;
+  padding: 12px 18px;
+  border-radius: 13px;
+  overflow: hidden;
+  box-sizing: border-box;
 }
