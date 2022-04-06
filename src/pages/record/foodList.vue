@@ -1,34 +1,64 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, unref, computed } from 'vue'
 import { baseUrl } from '~@/config/index'
-
-import { getFoodList } from '~@/apis/record.js'
+import _ from 'lodash'
+import Taro, { useRouter } from '@tarojs/taro'
+import { getFoodList, recordDiet } from '~@/apis/record.js'
+let foodType = ''
 const foodList = ref([])
+const router = useRouter()
+foodType = router.params?.type
+
+const checkedList = computed(() => {
+  return foodList.value.filter((item) => item.isChecked)
+})
+
 getFoodList().then((res) => {
   if (res.code === 0) {
     res.data.items.forEach((item) => {
       item.path = baseUrl + '/' + item.path
       item.attrs = JSON.parse(item.attrs)
+      item.isChecked = false
     })
     foodList.value = res.data.items
     console.log('[ list ] >', res.data.items)
   }
 })
-const currentId = ref('')
-const handleSelect = (id) => {
-  currentId.value = id
-  console.log('[ handleSelect ] >', id)
+
+const handleSelect = (index) => {
+  const list = unref(foodList)
+  foodList.value[index].isChecked = !foodList.value[index].isChecked
 }
 
-const handleSubmit = () => {
-  // Todo
+const handleSubmit = async () => {
+  console.log('[ checkList ] >', checkedList.value, foodList.value)
+  const list = _.map(unref(checkedList), (item) => {
+    return {
+      foodId: item.id,
+      caloriesBurned: Number(item.attrs.calories.value),
+    }
+  })
+  const options = {
+    foodType: foodType,
+    foods: list,
+  }
+  const res = await recordDiet(options)
+  if (res.code === 0) {
+    Taro.navigateBack()
+  } else {
+    Taro.showToast({
+      title: res.msg,
+      icon: 'none',
+      duration: 2000,
+    })
+  }
 }
 </script>
 
 <template>
   <div class="food-list">
-    <div v-for="item in foodList" :key="item.id" @click="handleSelect(item.id)">
-      <div class="list box" :class="{ active: currentId === item.id }">
+    <div v-for="(item, index) in foodList" :key="item.id" @click="handleSelect(index)">
+      <div class="list box" :class="{ active: item.isChecked }">
         <div class="left">
           <nut-avatar size="normal" style="vertical-align: middle" :icon="item.path"></nut-avatar>
           <span class="ellipsis" style="margin-left: 10px">{{ item.name }}</span>
@@ -40,7 +70,7 @@ const handleSubmit = () => {
       </div>
     </div>
     <div class="submit safe-area-bottom">
-      <nut-button block type="primary" @click="handleSubmit">确 定</nut-button>
+      <nut-button :disabled="!checkedList.length" block type="primary" @click="handleSubmit">确 定</nut-button>
     </div>
   </div>
 </template>
