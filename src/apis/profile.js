@@ -18,3 +18,6 @@ export function healthReport() {
   return request.get('/user/health')
 }
 
+export function getWeStep(options){
+  return request.post('/user/step',options)
+}
