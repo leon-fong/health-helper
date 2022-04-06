@@ -17,7 +17,7 @@
 import { computed } from 'vue'
 import { useStore } from '~@/store'
 import Taro, { useDidShow } from '@tarojs/taro'
-import { healthReport } from '~@/apis/profile.js'
+import { healthReport, getWeStep } from '~@/apis/profile.js'
 
 import UserInfo from './components/UserInfo'
 
@@ -26,7 +26,19 @@ const auth = useStore('auth')
 useDidShow(() => {
   auth.login()
   auth.setUserInfo()
-  healthReport()
+  // healthReport()
+
+  wx.getWeRunData({
+    success(res) {
+      // 拿 encryptedData 到开发者后台解密开放数据
+      const encryptedData = res.encryptedData
+      // 或拿 cloudID 通过云调用直接获取开放数据
+      const iv = res.iv
+      getWeStep({ encryptedData, iv }).then((res) => {
+        console.log('[ getWeStep ] >', res)
+      })
+    },
+  })
 })
 const isLogin = computed(() => auth.isLogin)
 
