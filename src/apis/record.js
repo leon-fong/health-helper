@@ -5,3 +5,14 @@ export function getFoodList( page = 1,pageSize = 10) {
     page,pageSize
   }})
 }
+export function  recordDiet( options) {
+  return request.post('/food/report',options)
+}
+export function  getDietByDate( currentTime = '') {
+  return request.get('/food',{
+    data:{
+      currentTime
+    }
+  })
+}
+
