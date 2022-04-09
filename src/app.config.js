@@ -9,7 +9,8 @@ export default defineAppConfig({
     'pages/profile/report',
     'pages/record/foodRecord',
     'pages/record/fitnessRecord',
-    'pages/record/foodList'
+    'pages/record/foodList',
+    'pages/record/foodCompare'
   ],
   "tabBar": {
     "list": [{

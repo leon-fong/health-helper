@@ -3,12 +3,13 @@ import { createPinia } from 'pinia'
 import Taro from '@tarojs/taro'
 
 
-import { Button,Radio,OverLay,Picker,Popup,DatePicker,RadioGroup,Tabs, TabPane, Toast,Form,FormItem,Icon ,Cell,CellGroup,Avatar ,Input} from '@nutui/nutui-taro';
+import { Button,Radio,
+  OverLay,Picker,Popup,DatePicker,RadioGroup,Tabs, TabPane, Toast,Form,FormItem,Icon ,Cell,CellGroup,Avatar ,Input} from '@nutui/nutui-taro';
 
 import '@tarojs/taro/html.css';
 import 'normalize.css/normalize.css';
 import './app.scss'
-import './style/iconfont.css'
+import './styles/iconfont.css'
 // import "@nutui/nutui-taro/dist/style.css";
 
 const checkSession = () => {
