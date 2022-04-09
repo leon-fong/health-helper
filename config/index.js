@@ -23,6 +23,9 @@ const config = {
   },
   framework: 'vue3',
   sass:{
+    resource: [
+			path.resolve(__dirname, '..', 'src/styles/custom_theme.scss')
+		],
     data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`
   },
   alias: {
