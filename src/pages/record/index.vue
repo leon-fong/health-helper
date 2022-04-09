@@ -1,10 +1,10 @@
 <template>
   <div class="record">
     <div class="header">
-      <div class="box recommend">
+      <div class="box recommend" @click="isShowRecommend = true">
         <span class="title">推荐食谱</span>
       </div>
-      <div class="box recommend" style="margin-left: 20px">
+      <div class="box recommend" style="margin-left: 20px" @click="toCompare">
         <span class="title">食物对比</span>
       </div>
     </div>
@@ -36,11 +36,13 @@
       </div>
     </div>
   </div>
+  <Recommend :show="isShowRecommend" @close="isShowRecommend = false" />
 </template>
 
 <script setup>
-import { getFoodList } from '~@/apis/record.js'
+import { ref } from 'vue'
 import Taro from '@tarojs/taro'
+import Recommend from './components/Recommend.vue'
 
 const daylily = [
   {
@@ -65,9 +67,17 @@ const daylily = [
   },
 ]
 
+const isShowRecommend = ref(false)
+
 const toFoodRecord = () => {
   Taro.navigateTo({
     url: '/pages/record/foodRecord',
+  })
+}
+
+const toCompare = () => {
+  Taro.navigateTo({
+    url: '/pages/record/foodCompare',
   })
 }
 </script>

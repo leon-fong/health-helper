@@ -2,12 +2,14 @@
 import { ref, unref, computed } from 'vue'
 import { baseUrl } from '~@/config/index'
 import _ from 'lodash'
-import Taro, { useRouter } from '@tarojs/taro'
+import Taro, { useRouter, EventChannel } from '@tarojs/taro'
 import { getFoodList, recordDiet } from '~@/apis/record.js'
 let foodType = ''
+let isCompare = false
 const foodList = ref([])
 const router = useRouter()
 foodType = router.params?.type
+isCompare = router.params?.isCompare
 
 const checkedList = computed(() => {
   return foodList.value.filter((item) => item.isChecked)
@@ -26,12 +28,22 @@ getFoodList().then((res) => {
 })
 
 const handleSelect = (index) => {
-  const list = unref(foodList)
+  if (foodList.value[index].isChecked) {
+    foodList.value[index].isChecked = false
+    return
+  }
+  if (isCompare && checkedList.value.length === 2) {
+    Taro.showToast({
+      title: '最多只能选择两种食物进行对比',
+      icon: 'none',
+      duration: 1500,
+    })
+    return
+  }
   foodList.value[index].isChecked = !foodList.value[index].isChecked
 }
 
-const handleSubmit = async () => {
-  console.log('[ checkList ] >', checkedList.value, foodList.value)
+async function forRecord() {
   const list = _.map(unref(checkedList), (item) => {
     return {
       foodId: item.id,
@@ -49,9 +61,30 @@ const handleSubmit = async () => {
     Taro.showToast({
       title: res.msg,
       icon: 'none',
-      duration: 2000,
+      duration: 1500,
     })
   }
+}
+function forCompare() {
+  if (checkedList.value.length < 2) {
+    Taro.showToast({
+      title: '需要选择两种食物才能进行对比',
+      icon: 'none',
+      duration: 2000,
+    })
+    return
+  }
+
+  const pages = getCurrentPages()
+  const current = pages[pages.length - 1]
+  const eventChannel = current.getOpenerEventChannel()
+
+  eventChannel.emit('change', { data: checkedList.value })
+  Taro.navigateBack()
+}
+
+const handleSubmit = () => {
+  isCompare ? forCompare() : forRecord()
 }
 </script>
 
@@ -69,8 +102,8 @@ const handleSubmit = async () => {
         </div>
       </div>
     </div>
-    <div class="submit safe-area-bottom">
-      <nut-button :disabled="!checkedList.length" block type="primary" @click="handleSubmit">确 定</nut-button>
+    <div class="submit safe-area-bottom" v-if="checkedList.length">
+      <nut-button block type="primary" @click="handleSubmit">确 定</nut-button>
     </div>
   </div>
 </template>

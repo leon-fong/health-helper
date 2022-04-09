@@ -1,8 +1,8 @@
 <script setup>
+import dayjs from 'dayjs'
 import Taro, { useDidShow } from '@tarojs/taro'
 import { getDietByDate } from '~@/apis/record.js'
 import { baseUrl } from '~@/config/index'
-import dayjs from 'dayjs'
 import { ref } from 'vue'
 
 const eatList = [
@@ -27,19 +27,23 @@ const today = new Date()
 const currentDate = ref(dayjs(today).format('YYYY-MM-DD'))
 const foodList = ref([])
 
-useDidShow(() => {
+const init = () => {
   getDietByDate(currentDate.value).then((res) => {
     if (res.code === 0) {
+      // FIXME 接口返回的 foodName 为null
       foodList.value = res.data
     }
   })
+}
+
+useDidShow(() => {
+  init()
 })
 
 const confirm = ({ selectedValue, selectedOptions }) => {
   const value = selectedOptions.map((option) => option.text).join('-')
   currentDate.value = value
-
-  console.log('[ currentDate ] >', currentDate.value)
+  init()
 }
 
 const handleClick = (type) => {
