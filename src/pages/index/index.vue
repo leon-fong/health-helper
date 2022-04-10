@@ -5,7 +5,7 @@
       <text class="span">健康生活，与你同行</text>
     </div>
     <div class="middle">
-      <img src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg" alt="" />
+      <i class="iconfont icon-running"></i>
     </div>
     <nut-button block color="linear-gradient(to right, #6bdf83, #4dbc76)" @click="handleLogin">微信一键登录</nut-button>
   </div>
@@ -14,10 +14,15 @@
 
 <script setup>
 import { ref } from 'vue'
-import Taro from '@tarojs/taro'
+import Taro, { useDidShow } from '@tarojs/taro'
 import { useStore } from '~@/store'
 
 import { getToken } from '~@/apis/profile.js'
+
+useDidShow(() => {
+  wx.hideHomeButton()
+})
+
 const auth = useStore('auth')
 const code = ref('')
 
@@ -69,8 +74,18 @@ const login = () => {
       display: block;
     }
     .span {
-      font-size: 14px;
+      font-size: 15px;
       color: #666;
+    }
+  }
+  .middle {
+    text-align: center;
+    i {
+      color: #fff;
+      background-color: $primary-color;
+      font-size: 100px;
+      border-radius: 50%;
+      padding: 40px;
     }
   }
 }
