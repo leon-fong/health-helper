@@ -9,29 +9,26 @@
       </div>
     </div>
     <div class="middle">
-      <div v-for="item in daylily" :key="item.label">
-        <div class="box daylily">
-          <i :class="['iconfont', item.icon]"></i>
-          <span class="value">{{ item.value }}</span>
-        </div>
-      </div>
+      <daily-record />
     </div>
 
     <div class="bottom">
-      <div class="box" @click="toFoodRecord">
+      <div class="diet box" style="margin-top: 20px" @click="toFoodRecord">
         <div class="top">
           <div class="title">饮食摄入</div>
         </div>
         <div class="value">
-          <div class=""></div>
+          <i class="iconfont icon-medicine-bowl"></i>
         </div>
       </div>
-      <div class="box">
+      <div class="sport box" style="margin-top: 20px" @click="toSportRecord">
         <div class="top">
           <div class="title">运动消耗</div>
         </div>
         <div class="bottom">
-          <div class="value"></div>
+          <div class="value">
+            <i class="iconfont icon-dumbell"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -42,36 +39,20 @@
 <script setup>
 import { ref } from 'vue'
 import Taro from '@tarojs/taro'
+import DailyRecord from './components/DailyRecord'
 import Recommend from './components/Recommend.vue'
-
-const daylily = [
-  {
-    label: 'weight',
-    value: '体重',
-    icon: 'icon-S_feipanglijigaishan',
-  },
-  {
-    label: 'highBloodPressure',
-    value: '高压',
-    icon: 'icon-S_kexuekongyashouye',
-  },
-  {
-    label: 'lowBloodPressure',
-    value: '低压',
-    icon: 'icon-S_kexuekongyashouye',
-  },
-  {
-    label: 'bloodSugar',
-    value: '血糖',
-    icon: 'icon-S_kongtang',
-  },
-]
+import UserInfo from '../profile/components/UserInfo.vue'
 
 const isShowRecommend = ref(false)
 
 const toFoodRecord = () => {
   Taro.navigateTo({
     url: '/pages/record/foodRecord',
+  })
+}
+const toSportRecord = () => {
+  Taro.navigateTo({
+    url: '/pages/record/sportRecord',
   })
 }
 
@@ -97,18 +78,35 @@ const toCompare = () => {
   .middle {
     display: flex;
     justify-content: space-between;
-    .daylily {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      i {
-        font-size: 30px;
-      }
+  }
+  .bottom {
+    .title {
+      color: #122f38;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .diet {
+      background-color: #f3f9f4;
       .value {
-        font-size: 12px;
-        color: #666;
-        margin-top: 4px;
+        margin-top: 10px;
+        text-align: right;
+
+        .iconfont {
+          color: #d7f0f0;
+          font-size: 70px;
+        }
+      }
+    }
+    .sport {
+      background-color: #f4f7f6;
+      .value {
+        margin-top: 10px;
+        text-align: right;
+
+        .iconfont {
+          color: #e1f2fd;
+          font-size: 70px;
+        }
       }
     }
   }

@@ -1,7 +1,7 @@
 <script setup>
 import dayjs from 'dayjs'
 import Taro, { useDidShow } from '@tarojs/taro'
-import { getDietByDate } from '~@/apis/record.js'
+import { getDietByDate, getFoodConsume } from '~@/apis/record.js'
 import { baseUrl } from '~@/config/index'
 import { ref } from 'vue'
 
@@ -20,6 +20,8 @@ const eatList = [
   },
 ]
 
+const consume = ref(0)
+
 const show = ref(false)
 const minDate = new Date(2020, 0, 1)
 const maxDate = new Date(2025, 10, 1)
@@ -30,8 +32,14 @@ const foodList = ref([])
 const init = () => {
   getDietByDate(currentDate.value).then((res) => {
     if (res.code === 0) {
-      // FIXME 接口返回的 foodName 为null
       foodList.value = res.data
+
+      // TODO 使用 pinia 中的推荐热量
+      getFoodConsume(1313).then((res) => {
+        if (res.code === 0) {
+          consume.value = res.data.finishedToday
+        }
+      })
     }
   })
 }
@@ -55,11 +63,14 @@ const handleClick = (type) => {
 
 <template>
   <div class="food-record">
-    <div class="top box" @click="show = true">
-      {{ currentDate }}
+    <div class="menu">
+      <div class="top box" @click="show = true">
+        {{ currentDate }}
+      </div>
+      <div class="top box" @click="show = true">共 {{ consume }} 千卡</div>
     </div>
-    <div v-for="item in eatList" :key="item.value" class="content box" @click="handleClick(item.value)">
-      <div class="top">
+    <div v-for="item in eatList" :key="item.value" class="content box">
+      <div class="top" @click="handleClick(item.value)">
         <div class="title">{{ item.label }}</div>
         <nut-icon name="plus"></nut-icon>
       </div>
@@ -67,11 +78,11 @@ const handleClick = (type) => {
         <div class="food-item" v-for="food in foodList[item.value]">
           <div class="left">
             <nut-avatar size="normal" style="vertical-align: middle" :icon="baseUrl + '/' + food.image"></nut-avatar>
-            <span class="ellipsis" style="margin-left: 10px">{{ food.foodName }}</span>
+            <span class="ellipsis title" style="margin-left: 10px">{{ food.foodName }}</span>
           </div>
           <div class="right">
             <span style="color: #f00">{{ food.caloriesBurned }}</span>
-            <span style="opacity: 0.5"> 千卡</span>
+            <span style="opacity: 0.5; font-size: 12px"> 千卡</span>
           </div>
         </div>
       </div>
@@ -82,12 +93,25 @@ const handleClick = (type) => {
 
 <style lang="scss">
 .food-record {
-  padding: 20px;
+  padding: 0 20px;
   height: 100vh;
+  .menu {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    .top {
+      flex: 1;
+      margin-top: 20px;
+    }
+  }
   .content {
     .top {
       display: flex;
       justify-content: space-between;
+      .title {
+        font-weight: bold;
+        font-size: 17px;
+      }
     }
     .history {
       .food-item {
@@ -96,6 +120,10 @@ const handleClick = (type) => {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        .title {
+          color: #555;
+          font-size: 14px;
+        }
       }
     }
   }
