@@ -21,3 +21,6 @@ export function healthReport() {
 export function getWeStep(options){
   return request.post('/user/step',options)
 }
+export function getCalorie(){
+  return request.get('/info/calorie')
+}
