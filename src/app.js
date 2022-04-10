@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 import Taro from '@tarojs/taro'
 
 
-import { Button,Radio,
+import { Button,Radio,NumberKeyboard,
   OverLay,Picker,Popup,DatePicker,RadioGroup,Tabs, TabPane, Toast,Form,FormItem,Icon ,Cell,CellGroup,Avatar ,Input} from '@nutui/nutui-taro';
 
 import '@tarojs/taro/html.css';
@@ -48,7 +48,7 @@ App.use(Button).use(Form)
 .use(Radio).use(RadioGroup)
 .use(Input).use(Popup).use(OverLay)
 .use(Tabs).use(TabPane)
-.use(DatePicker).use(Picker)
+.use(DatePicker).use(Picker).use(NumberKeyboard)
 
 App.use(createPinia())
 export default App
