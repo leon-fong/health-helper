@@ -5,11 +5,11 @@ export default defineAppConfig({
     'pages/profile/edit',
     'pages/analysis/index',
     'pages/record/index',
-    'pages/profile/eat-suggestion',
     'pages/profile/report',
     'pages/record/foodRecord',
-    'pages/record/fitnessRecord',
+    'pages/record/sportRecord',
     'pages/record/foodList',
+    'pages/record/sportList',
     'pages/record/foodCompare'
   ],
   "tabBar": {
@@ -18,11 +18,6 @@ export default defineAppConfig({
       "text": "",
       "iconPath":"./static/profile.png",
       "selectedIconPath":"./static/profile-active.png",
-    }, {
-      "pagePath": "pages/analysis/index",
-      "text": "",
-      "iconPath":"./static/chart.png",
-      "selectedIconPath":"./static/chart-active.png",
     },
     {
       "pagePath": "pages/record/index",
