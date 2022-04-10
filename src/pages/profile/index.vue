@@ -1,56 +1,39 @@
 <template>
   <div class="profile">
     <user-info @edit="handleEdit" />
+    <div class="middle">
+      <we-step />
+      <eat-suggestion />
+    </div>
 
     <div class="menu" @click="toReport">
-      <div class="title">我的身材怎么样？</div>
+      <div class="title">健康报告</div>
       <nut-icon name="right"></nut-icon>
     </div>
-    <div class="menu" @click="toEatSuggestion">
-      <div class="title">我该怎么吃？</div>
+    <div class="menu" @click="toAnalysis">
+      <div class="title">健康分析</div>
       <nut-icon name="right"></nut-icon>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { useStore } from '~@/store'
 import Taro, { useDidShow } from '@tarojs/taro'
-import { healthReport, getWeStep } from '~@/apis/profile.js'
 
-import UserInfo from './components/UserInfo'
-
+import UserInfo from './components/UserInfo.vue'
+import WeStep from './components/WeStep.vue'
+import EatSuggestion from './components/EatSuggestion.vue'
 const auth = useStore('auth')
 
-useDidShow(() => {
-  auth.login()
-  auth.setUserInfo()
-  // healthReport()
-
-  wx.getWeRunData({
-    success(res) {
-      // 拿 encryptedData 到开发者后台解密开放数据
-      const encryptedData = res.encryptedData
-      // 或拿 cloudID 通过云调用直接获取开放数据
-      const iv = res.iv
-      getWeStep({ encryptedData, iv }).then((res) => {
-        console.log('[ getWeStep ] >', res)
-      })
-    },
-  })
-})
-const isLogin = computed(() => auth.isLogin)
-
+// useDidShow(() => {
+//   auth.login()
+//   auth.setUserInfo()
+//   // healthReport()
+// })
 const handleEdit = () => {
   Taro.navigateTo({
     url: '/pages/profile/edit',
-  })
-}
-
-const toEatSuggestion = () => {
-  Taro.navigateTo({
-    url: '/pages/profile/eat-suggestion',
   })
 }
 const toReport = () => {
@@ -58,14 +41,24 @@ const toReport = () => {
     url: '/pages/profile/report',
   })
 }
+const toAnalysis = () => {
+  Taro.navigateTo({
+    url: '/pages/analysis/index',
+  })
+}
 </script>
 
 <style lang="scss">
 .profile {
-  padding: 20px;
+  padding: 0 20px;
+  .middle {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
   .menu {
     background-color: #fff;
-    margin: 10px 0;
+    margin: 20px 0;
     padding: 12px 18px;
     border-radius: 13px;
     display: flex;

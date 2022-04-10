@@ -16,6 +16,11 @@
       <nut-form-item label="年龄" body-align="right">
         <nut-input :border="false" placeholder="岁" v-model="form.age" :hasBorder="false" max-length="2" input-align="right" type="number" />
       </nut-form-item>
+      <!-- <nut-form-item label="运动目标" body-align="right"> -->
+      <!-- <nut-input :border="false" placeholder="目标" v-model="type" :hasBorder="false" input-align="right" readonly @click="isShow = true" /> -->
+      <nut-cell title="运动目标" :desc="formatType" @click="isShow = true"></nut-cell>
+      <nut-picker v-model:visible="isShow" :columns="multipleColumns" title="运动目标" @close="isShow = false" @confirm="handleConfirm" />
+      <!-- </nut-form-item> -->
     </nut-form>
     <div class="submit safe-area-bottom">
       <nut-button block :disabled="isDisabled" type="primary" @click="handleSubmit">保 存</nut-button>
@@ -25,7 +30,6 @@
 
 <script setup>
 import Taro from '@tarojs/taro'
-
 import { ref, computed, watch } from 'vue'
 import { useStore } from '~@/store'
 import _ from 'lodash'
@@ -34,11 +38,33 @@ import { editUserInfo } from '~@/apis/profile.js'
 const auth = useStore('auth')
 const userInfo = computed(() => auth.userInfo)
 
+const SPORTTYPES = {
+  infrequentExercise: '不经常运动',
+  moderateExercise: '适量运动',
+  exerciseRegularly: '经常运动',
+  lotsOfExercise: '大量运动',
+}
+
+const formatType = computed(() => {
+  return SPORTTYPES[form.value.sportType]
+})
+
+const multipleColumns = [
+  [
+    { text: '不经常运动', value: 'infrequentExercise' },
+    { text: '适量运动', value: 'moderateExercise' },
+    { text: '经常运动', value: 'exerciseRegularly' },
+    { text: '大量运动', value: 'lotsOfExercise' },
+  ],
+]
+
+const isShow = ref(false)
 const form = ref({
   gender: 0,
   height: null,
   weight: null,
   age: null,
+  sportType: 'moderateExercise',
 })
 
 const keys = _.keys(form.value)
@@ -59,11 +85,11 @@ const isDisabled = computed(() => {
   return false
 })
 
+const handleConfirm = ({ selectedValue }) => {
+  form.value.sportType = selectedValue[0]
+}
+
 const handleSubmit = () => {
-  // for (const key in form.value) {
-  //   form.value[key] = Number(form.value[key])
-  // }
-  console.log('[ form.value ] >', form.value)
   editUserInfo({ ...form.value }).then(async (res) => {
     if (res.code === 0) {
       auth.userInfo = res.data
