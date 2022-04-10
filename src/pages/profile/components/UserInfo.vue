@@ -13,15 +13,15 @@
       <div class="content">
         <ul>
           <li>
-            <span>{{ userInfo.age }}</span>
+            <span>{{ userInfo.age || 0 }}</span>
             <span class="attr">年龄</span>
           </li>
           <li>
-            <span>{{ userInfo.height }}</span>
+            <span>{{ userInfo.height || 0 }}</span>
             <span class="attr">身高</span>
           </li>
           <li>
-            <span>{{ userInfo.weight }}</span>
+            <span>{{ userInfo.weight || 0 }}</span>
             <span class="attr">体重</span>
           </li>
         </ul>
@@ -36,6 +36,8 @@ import { useStore } from '~@/store'
 const auth = useStore('auth')
 const userInfo = computed(() => auth.userInfo)
 const emit = defineEmits(['edit'])
+auth.login()
+auth.setUserInfo()
 const handleEdit = () => {
   emit('edit')
 }
