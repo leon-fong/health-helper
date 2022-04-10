@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'iconfont'; /* Project id 3301706 */
-  src: url('//at.alicdn.com/t/font_3301706_ttk07gddv2m.woff2?t=1649166103394') format('woff2'), url('//at.alicdn.com/t/font_3301706_ttk07gddv2m.woff?t=1649166103394') format('woff'),
-    url('//at.alicdn.com/t/font_3301706_ttk07gddv2m.ttf?t=1649166103394') format('truetype');
+  src: url('//at.alicdn.com/t/font_3301706_w8ijp3qn198.woff2?t=1649594112269') format('woff2'), url('//at.alicdn.com/t/font_3301706_w8ijp3qn198.woff?t=1649594112269') format('woff'),
+    url('//at.alicdn.com/t/font_3301706_w8ijp3qn198.ttf?t=1649594112269') format('truetype');
 }
 
 .iconfont {
@@ -12,38 +12,34 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-S_kongtang:before {
-  content: '\e65f';
+.icon-running:before {
+  content: '\e64f';
 }
 
-.icon-S_kexuekongyashouye:before {
-  content: '\e660';
+.icon-dumbell:before {
+  content: '\e64b';
 }
 
-.icon-S_feipanglijigaishan:before {
-  content: '\e672';
+.icon-medicine-bowl:before {
+  content: '\e64e';
 }
 
-.icon-bar-chart:before {
-  content: '\e81e';
+.icon-healthy-heart:before {
+  content: '\e64c';
 }
 
-.icon-person-outline:before {
-  content: '\e7e2';
+.icon-heartrate:before {
+  content: '\e64d';
 }
 
-.icon-bar-chart-outline:before {
-  content: '\e81d';
+.icon-weight:before {
+  content: '\e650';
 }
 
-.icon-person:before {
-  content: '\e82f';
+.icon-note:before {
+  content: '\e711';
 }
 
-.icon-newspaper:before {
-  content: '\e9f5';
-}
-
-.icon-newspaper-outline:before {
-  content: '\e9f4';
+.icon-user:before {
+  content: '\e755';
 }
