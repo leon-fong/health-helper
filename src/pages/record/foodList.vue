@@ -23,7 +23,6 @@ getFoodList().then((res) => {
       item.isChecked = false
     })
     foodList.value = res.data.items
-    console.log('[ list ] >', res.data.items)
   }
 })
 

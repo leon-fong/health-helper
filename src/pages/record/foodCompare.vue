@@ -14,7 +14,6 @@ const toAdd = () => {
     events: {
       change(options) {
         if (options) {
-          console.log('[ options ] >', options)
           list.value = options.data
           isShow.value = true
         }

@@ -1,7 +1,13 @@
 // 封装axios的请求，返回重新封装的数据格式
 // 对错误的统一处理
+import {computed} from 'vue'
 import Taro from '@tarojs/taro'
 import axios from 'axios-miniprogram'
+// import { useStore } from '~@/store'
+
+// const auth = computed(() => {
+//   return useStore('auth')
+// })
 const CancelToken = axios.CancelToken
 
 class HttpRequest {
@@ -59,7 +65,8 @@ class HttpRequest {
         
         if (res.status === 200) {
           return Promise.resolve(res.data)
-        } else {
+        }
+        else {
           return Promise.reject(res)
         }
       },
@@ -100,6 +107,13 @@ class HttpRequest {
   put(url, data){
     return this.request({
       method: 'put',
+      url: url,
+      data 
+    })
+  }
+  delete(url, data){
+    return this.request({
+      method: 'delete',
       url: url,
       data 
     })

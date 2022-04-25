@@ -9,9 +9,6 @@ const isShow = ref(false)
 const customKey = reactive(['.'])
 const currentValue = ref('')
 const currentItem = ref({})
-watchEffect(() => {
-  console.log('[ currentValue ] >', currentValue.value)
-})
 
 getSportList().then((res) => {
   if (res.code === 0) {
@@ -19,7 +16,6 @@ getSportList().then((res) => {
       item.path = baseUrl + '/' + item.path
     })
     sportList.value = res.data.items
-    console.log('[ list ] >', res.data.items)
   }
 })
 
