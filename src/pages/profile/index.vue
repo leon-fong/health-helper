@@ -1,36 +1,22 @@
 <template>
   <div class="profile">
-    <user-info @edit="handleEdit" />
-    <div class="middle">
-      <we-step />
-      <eat-suggestion />
+    <div class="header">
+      <user-info class="info" @edit="handleEdit" />
     </div>
-
-    <div class="menu" @click="toReport">
-      <div class="title">健康报告</div>
-      <nut-icon name="right"></nut-icon>
-    </div>
-    <div class="menu" @click="toAnalysis">
-      <div class="title">健康分析</div>
-      <nut-icon name="right"></nut-icon>
-    </div>
+    <nut-cell-group class="box cell">
+      <nut-cell icon="fabulous" title="推荐食谱" @click="toRecommend" is-link></nut-cell>
+      <nut-cell icon="order" title="食物对比" @click="toCompare" is-link></nut-cell>
+      <nut-cell icon="s-follow" title="健康报告" @click="toReport" is-link></nut-cell>
+      <nut-cell icon="my2" title="健康分析" @click="toAnalysis" is-link></nut-cell>
+    </nut-cell-group>
   </div>
 </template>
 
 <script setup>
-import { useStore } from '~@/store'
-import Taro, { useDidShow } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 
 import UserInfo from './components/UserInfo.vue'
-import WeStep from './components/WeStep.vue'
-import EatSuggestion from './components/EatSuggestion.vue'
-const auth = useStore('auth')
 
-// useDidShow(() => {
-//   auth.login()
-//   auth.setUserInfo()
-//   // healthReport()
-// })
 const handleEdit = () => {
   Taro.navigateTo({
     url: '/pages/profile/edit',
@@ -41,31 +27,48 @@ const toReport = () => {
     url: '/pages/profile/report',
   })
 }
+const toRecommend = () => {
+  Taro.navigateTo({
+    url: '/pages/profile/recommend',
+  })
+}
 const toAnalysis = () => {
   Taro.navigateTo({
     url: '/pages/analysis/index',
+  })
+}
+const toCompare = () => {
+  Taro.navigateTo({
+    url: '/pages/record/foodCompare',
   })
 }
 </script>
 
 <style lang="scss">
 .profile {
-  padding: 0 20px;
-  .middle {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+  height: 100vh;
+  width: 100%;
+  // padding: 0 20px;
+  .header {
+    position: relative;
+    height: 150px;
+    background-color: $primary-color;
+    .info {
+      position: absolute;
+      top: 50px;
+      padding: 0 20px;
+
+      width: 100%;
+      box-sizing: border-box;
+      z-index: 9;
+    }
   }
-  .menu {
-    background-color: #fff;
-    margin: 20px 0;
-    padding: 12px 18px;
-    border-radius: 13px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .title {
-      color: #555;
+  .cell {
+    margin: 20px;
+    margin-top: 60px;
+    padding: 0;
+    .nut-cell__title {
+      margin-left: 6px;
     }
   }
 }

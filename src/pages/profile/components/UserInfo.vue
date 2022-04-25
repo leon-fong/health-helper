@@ -1,9 +1,9 @@
 <template>
   <div class="user-box">
     <div class="card">
-      <div class="header">
+      <div class="head">
         <div class="left">
-          <nut-avatar size="normal" style="vertical-align: middle" :icon="userInfo.avatar"></nut-avatar>
+          <nut-avatar size="large" class="avatar" :icon="userInfo.avatar"></nut-avatar>
           <span class="ellipsis name">{{ userInfo.userName }}</span>
         </div>
         <div class="right">
@@ -13,15 +13,15 @@
       <div class="content">
         <ul>
           <li>
-            <span>{{ userInfo.age || 0 }}</span>
+            <span class="num">{{ userInfo.age || 0 }}</span>
             <span class="attr">年龄</span>
           </li>
           <li>
-            <span>{{ userInfo.height || 0 }}</span>
+            <span class="num">{{ userInfo.height || 0 }}</span>
             <span class="attr">身高</span>
           </li>
           <li>
-            <span>{{ userInfo.weight || 0 }}</span>
+            <span class="num">{{ userInfo.weight || 0 }}</span>
             <span class="attr">体重</span>
           </li>
         </ul>
@@ -38,6 +38,7 @@ const userInfo = computed(() => auth.userInfo)
 const emit = defineEmits(['edit'])
 auth.login()
 auth.setUserInfo()
+
 const handleEdit = () => {
   emit('edit')
 }
@@ -46,24 +47,33 @@ const handleEdit = () => {
 <style lang="scss">
 .user-box {
   .card {
+    position: relative;
     background-color: #fff;
     margin: 20px 0;
     padding: 12px 18px;
     border-radius: 13px;
   }
-  .header {
+  .head {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     .left {
+      position: absolute;
+      top: -25%;
+      left: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
       .name {
-        margin-left: 10px;
+        margin-top: 20rpx;
         color: #666;
       }
     }
   }
   .content {
-    margin-top: 25px;
+    margin-top: 40px;
     ul {
       margin: 0;
       padding: 0;
@@ -78,6 +88,10 @@ const handleEdit = () => {
         span {
           text-align: center;
           font-size: 16px;
+        }
+        .num {
+          font-size: 18px;
+          font-weight: bold;
         }
         .attr {
           font-size: 12px;
