@@ -1,7 +1,8 @@
 <script setup>
 import dayjs from 'dayjs'
+import { getCurrentInstance } from 'vue'
 import Taro, { useDidShow } from '@tarojs/taro'
-import { getDietByDate, getFoodConsume } from '~@/apis/record.js'
+import { getDietByDate, deleteDiet } from '~@/apis/record.js'
 import { baseUrl } from '~@/config/index'
 import { ref } from 'vue'
 
@@ -32,14 +33,9 @@ const foodList = ref([])
 const init = () => {
   getDietByDate(currentDate.value).then((res) => {
     if (res.code === 0) {
-      foodList.value = res.data
-
-      // TODO 使用 pinia 中的推荐热量
-      getFoodConsume(1313).then((res) => {
-        if (res.code === 0) {
-          consume.value = res.data.finishedToday
-        }
-      })
+      res.data.ref = ref(null)
+      foodList.value = res.data.report
+      consume.value = res.data.hots
     }
   })
 }
@@ -55,9 +51,17 @@ const confirm = ({ selectedValue, selectedOptions }) => {
 }
 
 const handleClick = (type) => {
+  // 禁止在非今天添加食物记录
+  if (currentDate.value !== dayjs(today).format('YYYY-MM-DD')) return
   Taro.navigateTo({
     url: '/pages/record/foodList?type=' + type,
   })
+}
+const currentInstance = getCurrentInstance()
+const handleDelete = async (id, index) => {
+  currentInstance.ctx.$refs.foodsRef[index].close()
+  await deleteDiet(id)
+  init()
 }
 </script>
 
@@ -67,24 +71,31 @@ const handleClick = (type) => {
       <div class="top box" @click="show = true">
         {{ currentDate }}
       </div>
-      <div class="top box" @click="show = true">共 {{ consume }} 千卡</div>
+      <div class="top box">共 {{ consume }} 千卡</div>
     </div>
-    <div v-for="item in eatList" :key="item.value" class="content box">
+    <div v-for="item in eatList" :key="item.value" class="content">
       <div class="top" @click="handleClick(item.value)">
         <div class="title">{{ item.label }}</div>
         <nut-icon name="plus"></nut-icon>
       </div>
       <div class="history">
-        <div class="food-item" v-for="food in foodList[item.value]">
-          <div class="left">
-            <nut-avatar size="normal" style="vertical-align: middle" :icon="baseUrl + '/' + food.image"></nut-avatar>
-            <span class="ellipsis title" style="margin-left: 10px">{{ food.foodName }}</span>
-          </div>
-          <div class="right">
-            <span style="color: #f00">{{ food.caloriesBurned }}</span>
-            <span style="opacity: 0.5; font-size: 12px"> 千卡</span>
-          </div>
-        </div>
+        <nut-swipe ref="foodsRef" class="food-item" v-for="(food, index) in foodList[item.value]">
+          <nut-cell round-radius="0" class="item-cell">
+            <template #default>
+              <div class="left">
+                <nut-avatar size="normal" style="vertical-align: middle" :icon="baseUrl + '/' + food.image"></nut-avatar>
+                <span class="ellipsis title" style="margin-left: 10px">{{ food.foodName }}</span>
+              </div>
+              <div class="right">
+                <span style="color: #f00">{{ food.caloriesBurned }}</span>
+                <span style="opacity: 0.5; font-size: 12px"> 千卡</span>
+              </div>
+            </template>
+          </nut-cell>
+          <template #right>
+            <nut-button shape="square" style="height: 100%" @click="handleDelete(food.id, index)" type="danger">删除</nut-button>
+          </template>
+        </nut-swipe>
       </div>
     </div>
   </div>
@@ -100,14 +111,24 @@ const handleClick = (type) => {
     justify-content: space-between;
     gap: 20px;
     .top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex: 1;
       margin-top: 20px;
     }
   }
   .content {
+    background-color: #fff;
+    margin: 10px 0;
+    border-radius: 13px;
+    overflow: hidden;
+    box-sizing: border-box;
     .top {
       display: flex;
       justify-content: space-between;
+      margin: 5px 0;
+      padding: 12px 18px;
       .title {
         font-weight: bold;
         font-size: 17px;
@@ -115,14 +136,21 @@ const handleClick = (type) => {
     }
     .history {
       .food-item {
-        margin-top: 20px;
+        border-top: 1rpx solid #f5f5f5;
         width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .title {
-          color: #555;
-          font-size: 14px;
+        .item-cell {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .title {
+            color: #555;
+            font-size: 14px;
+          }
+        }
+
+        .nut-cell {
+          margin: 0;
+          box-shadow: 0;
         }
       }
     }
