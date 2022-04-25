@@ -8,6 +8,9 @@ export function getFoodList( page = 1,pageSize = 10) {
 export function  recordDiet( options) {
   return request.post('/food/report',options)
 }
+export function  deleteDiet( options) {
+  return request.delete(`/food/report/${options}`)
+}
 export function  getDietByDate( currentTime = '') {
   return request.get('/food',{
     data:{
@@ -30,6 +33,11 @@ export function getSportList( page = 1,pageSize = 10) {
     page,pageSize
   }})
 }
+
+export function  deleteSport( options) {
+  return request.delete(`/sport/report/${options}`)
+}
+
 export function  recordSport( options) {
   return request.post('/sport',options)
 }
