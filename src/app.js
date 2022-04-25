@@ -4,22 +4,20 @@ import Taro from '@tarojs/taro'
 
 
 import { Button,Radio,NumberKeyboard,
-  OverLay,Picker,Popup,DatePicker,RadioGroup,Tabs, TabPane, Toast,Form,FormItem,Icon ,Cell,CellGroup,Avatar ,Input} from '@nutui/nutui-taro';
+  OverLay,Picker,Popup,DatePicker,
+  RadioGroup,Tabs, TabPane, 
+  Toast,Form,FormItem,Icon 
+  ,Cell,CellGroup,Avatar,
+  Swipe,Swiper,SwiperItem ,Table
+  ,Input} from '@nutui/nutui-taro';
 
 import '@tarojs/taro/html.css';
 import 'normalize.css/normalize.css';
 import './app.scss'
 import './styles/iconfont.css'
-// import "@nutui/nutui-taro/dist/style.css";
-
-const checkSession = () => {
- return wx.checkSession()
-}
 
 const doLogin = async() => {
-  // const sessionErrMsg = await checkSession()
   const token = Taro.getStorageSync('token')
-  // console.log('[ sessionErrMsg ] >', sessionErrMsg)
   if ( !token) {
     Taro.reLaunch({
       url: '/pages/index/index'
@@ -47,7 +45,8 @@ App.use(Button).use(Form)
 .use(Cell).use(CellGroup)
 .use(Radio).use(RadioGroup)
 .use(Input).use(Popup).use(OverLay)
-.use(Tabs).use(TabPane)
+.use(Tabs).use(TabPane).use(Swipe)
+.use(Swiper).use(SwiperItem).use(Table)
 .use(DatePicker).use(Picker).use(NumberKeyboard)
 
 App.use(createPinia())
