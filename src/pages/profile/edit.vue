@@ -92,7 +92,9 @@ const handleConfirm = ({ selectedValue }) => {
 const handleSubmit = () => {
   editUserInfo({ ...form.value }).then(async (res) => {
     if (res.code === 0) {
-      auth.userInfo = res.data
+      auth.login()
+      auth.setUserInfo()
+
       Taro.navigateBack()
     } else {
       Taro.showToast({
