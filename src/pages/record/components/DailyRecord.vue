@@ -57,7 +57,7 @@ const handleConfirm = ({ selectedValue }) => {
 
 function genrateColumn() {
   const a = _.times(100, (i) => ({ text: String(i + 1), value: i + 1 }))
-  const b = _.times(10, (i) => ({ text: String(floatMul(i, 0.1)), value: floatMul(i, 0.1) }))
+  const b = _.times(100, (i) => ({ text: String(floatMul(i, 0.01)), value: floatMul(i, 0.01) }))
   return [a, b]
 }
 </script>
@@ -90,7 +90,7 @@ function genrateColumn() {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 12px 15px;
+  aspect-ratio: 1 / 1;
   margin-bottom: 0;
 
   i {
