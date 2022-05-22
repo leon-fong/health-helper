@@ -5,8 +5,7 @@ import Taro from '@tarojs/taro'
 
 import { Button,Radio,NumberKeyboard,
   OverLay,Picker,Popup,DatePicker,
-  RadioGroup,Tabs, TabPane, 
-  Toast,Form,FormItem,Icon 
+  RadioGroup,Tabs, TabPane,Form,FormItem,Icon 
   ,Cell,CellGroup,Avatar,
   Swipe,Swiper,SwiperItem ,Table
   ,Input} from '@nutui/nutui-taro';
