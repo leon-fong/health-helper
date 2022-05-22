@@ -92,7 +92,7 @@ function genrateColumn() {
   align-items: center;
   aspect-ratio: 1 / 1;
   margin-bottom: 0;
-
+  padding:15px;
   i {
     font-size: 30px;
     color: #fff;

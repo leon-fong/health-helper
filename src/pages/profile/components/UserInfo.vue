@@ -67,7 +67,7 @@ const handleEdit = () => {
       justify-content: center;
 
       .name {
-        margin-top: 20rpx;
+        margin-top: 10rpx;
         color: #666;
       }
     }
