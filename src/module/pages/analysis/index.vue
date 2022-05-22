@@ -8,18 +8,18 @@
     </div>
     <div style="padding: 20px" v-if="selected === 2 && isShowTable">
       <nut-table :columns="state.columns" :data="state.data"></nut-table>
-      <div class="more" @click="getMore">查看更多</div>
+      <div class="nomore" v-if="noMore">暂无更多数据</div>
     </div>
     <e-chart v-show="!isShowTable || selected !== 2" ref="chartRef" canvas-id="bar-canvas" />
   </view>
 </template>
 
 <script setup>
-import { computed, ref, reactive } from 'vue'
+import { computed, ref, reactive, h } from 'vue'
 import _ from 'lodash'
 import dayjs from 'dayjs'
 import { getAnalysis, getWeightList } from '~@/apis/analysis.js'
-import Taro from '@tarojs/taro'
+import Taro, { useReachBottom } from '@tarojs/taro'
 import { EChart } from 'echarts4taro3'
 
 const state = reactive({
@@ -35,10 +35,25 @@ const state = reactive({
     {
       title: '幅度',
       key: 'gain',
+      render: (record) => {
+        return h(
+          'span',
+          {
+            style: {
+              color: record.gain > 0 ? '#f00' : '#0f0',
+            },
+          },
+          record.gain
+        )
+      },
     },
   ],
   data: [],
 })
+
+const page = ref(1)
+const pageSize = 20
+const noMore = ref(false)
 
 const isShowTable = ref(false)
 const toggle = () => {
@@ -50,8 +65,8 @@ const toggleTitle = computed(() => {
 })
 
 const type = {
-  bloodSugar: '血糖',
   bloodPressure: '血压',
+  bloodSugar: '血糖',
   weight: '体重',
 }
 
@@ -81,10 +96,6 @@ const option = {
     type: 'value',
   },
   series: [],
-}
-
-const getMore = () => {
-  // Todo 查看更多
 }
 
 const selected = ref(0)
@@ -133,33 +144,53 @@ function init(key) {
           option.legend.data = [type[key]]
         }
         option.xAxis.data = date
-        chartRef.value.setOption(option)
+        chartRef.value?.setOption(option)
         resolve()
       }
     })
   })
 }
-init('bloodSugar')
-getWeightList().then((res) => {
-  if (res.code === 0) {
-    res.data.items.map((item) => {
-      item.reportDate = dayjs(item.reportDate).format('YYYY-MM-DD')
-    })
 
-    state.data = res.data.items
+useReachBottom(() => {
+  if (page.value * pageSize == state.data.length) {
+    page.value = page.value + 1
+    createList()
+  } else {
+    noMore.value = true
   }
 })
+
+function createList() {
+  getWeightList(page.value, pageSize).then((res) => {
+    if (res.code === 0) {
+      res.data.items.map((item) => {
+        item.reportDate = dayjs(item.reportDate).format('YYYY-MM-DD')
+      })
+
+      if (res.data.items.length == pageSize) {
+        state.data.push(...res.data.items)
+        noMore.value = false
+      } else {
+        state.data.push(...res.data.items)
+        noMore.value = true
+      }
+    }
+  })
+}
+
+init('bloodSugar')
+createList()
 
 async function tabChange({ paneKey }) {
   const key = Object.keys(type)[paneKey]
   chartRef.value.refresh(option)
   await init(key)
-  chartRef.value.setOption(option)
+  // chartRef.value.setOption(option)
 
   // Taro.nextTick(() => {
-  //   setTimeout(() => {
-  //     chartRef.value.refresh(option) // 初始化图表
-  //   }, 500)
+  setTimeout(() => {
+    chartRef.value.refresh(option) // 初始化图表
+  }, 500)
   // })
 }
 
