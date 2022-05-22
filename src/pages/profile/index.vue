@@ -34,7 +34,7 @@ const toRecommend = () => {
 }
 const toAnalysis = () => {
   Taro.navigateTo({
-    url: '/pages/analysis/index',
+    url: '../../module/pages/analysis/index',
   })
 }
 const toCompare = () => {

@@ -60,7 +60,11 @@ const handleDelete = async (id, index) => {
       <div class="top box" @click="show = true">
         {{ currentDate }}
       </div>
-      <div class="top box">共 {{ consume }} 千卡</div>
+      <div class="top box">
+        共
+        <span style="font-weight: bold; margin: 0 5px"> {{ consume }} </span>
+        千卡
+      </div>
     </div>
     <div class="content">
       <div class="top" @click="handleClick">

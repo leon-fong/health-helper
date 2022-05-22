@@ -2,7 +2,7 @@
 import { ref, computed, watchEffect, reactive } from 'vue'
 import { baseUrl } from '~@/config/index'
 import _ from 'lodash'
-import Taro from '@tarojs/taro'
+import Taro, { useReachBottom } from '@tarojs/taro'
 import { getSportList, recordSport } from '~@/apis/record.js'
 const sportList = ref([])
 const isShow = ref(false)
@@ -10,14 +10,37 @@ const customKey = reactive(['.'])
 const currentValue = ref('')
 const currentItem = ref({})
 
-getSportList().then((res) => {
-  if (res.code === 0) {
-    res.data.items.forEach((item) => {
-      item.path = baseUrl + '/' + item.path
-    })
-    sportList.value = res.data.items
+const page = ref(1)
+const pageSize = 10
+const noMore = ref(false)
+
+useReachBottom(() => {
+  if (page.value * pageSize == sportList.value.length) {
+    page.value = page.value + 1
+    createList()
+  } else {
+    noMore.value = true
   }
 })
+
+function createList() {
+  getSportList(page.value, pageSize).then((res) => {
+    if (res.code === 0) {
+      res.data.items.forEach((item) => {
+        item.path = baseUrl + '/' + item.path
+      })
+      if (res.data.items.length == pageSize) {
+        sportList.value.push(...res.data.items)
+        noMore.value = false
+      } else {
+        sportList.value.push(...res.data.items)
+        noMore.value = true
+      }
+    }
+  })
+}
+
+createList()
 
 const handleSelect = (item) => {
   currentItem.value = item
@@ -66,7 +89,7 @@ const handleSubmit = async () => {
         </div>
       </div>
     </div>
-
+    <div class="nomore" v-if="noMore">暂无更多数据</div>
     <nut-numberkeyboard :title="(currentValue || 0) + ' 分钟'" :overlay="true" v-model:value="currentValue" v-model:visible="isShow" :custom-key="customKey" @close="handleSubmit">
     </nut-numberkeyboard>
   </div>

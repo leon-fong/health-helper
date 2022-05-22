@@ -2,7 +2,7 @@
 import { ref, unref, computed } from 'vue'
 import { baseUrl } from '~@/config/index'
 import _ from 'lodash'
-import Taro, { useRouter, EventChannel } from '@tarojs/taro'
+import Taro, { useRouter, EventChannel ,useReachBottom} from '@tarojs/taro'
 import { getFoodList, recordDiet } from '~@/apis/record.js'
 let foodType = ''
 let isCompare = false
@@ -11,20 +11,45 @@ const router = useRouter()
 foodType = router.params?.type
 isCompare = router.params?.isCompare
 
+const page = ref(1)
+const pageSize = 10
+const noMore = ref(false)
+
 const checkedList = computed(() => {
   return foodList.value.filter((item) => item.isChecked)
 })
 
-getFoodList().then((res) => {
+
+useReachBottom(() => {
+  if(page.value * pageSize == foodList.value.length ){
+    page.value = page.value+1
+    createList()
+  }else{
+    noMore.value = true
+  }
+})
+
+function createList(){
+getFoodList(page.value,pageSize).then((res) => {
   if (res.code === 0) {
     res.data.items.forEach((item) => {
       item.path = baseUrl + '/' + item.path
       item.attrs = JSON.parse(item.attrs)
       item.isChecked = false
     })
-    foodList.value = res.data.items
+ 
+ 
+    if(res.data.items.length == pageSize){
+    foodList.value.push(...res.data.items)
+noMore.value = false
+    }else{
+ foodList.value.push(...res.data.items)
+    noMore.value = true
+    }
   }
 })
+}
+
 
 const handleSelect = (index) => {
   if (foodList.value[index].isChecked) {
@@ -41,6 +66,8 @@ const handleSelect = (index) => {
   }
   foodList.value[index].isChecked = !foodList.value[index].isChecked
 }
+
+createList()
 
 async function forRecord() {
   const list = _.map(unref(checkedList), (item) => {
@@ -101,6 +128,7 @@ const handleSubmit = () => {
         </div>
       </div>
     </div>
+    <div class='nomore' v-if='noMore'>暂无更多数据</div>
     <div class="submit safe-area-bottom" v-if="checkedList.length">
       <nut-button block type="primary" @click="handleSubmit">确 定</nut-button>
     </div>
@@ -135,4 +163,5 @@ const handleSubmit = () => {
   padding-right: 20px;
   box-sizing: border-box;
 }
+
 </style>
