@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@babel/core': ^7.8.0
   '@babel/runtime': ^7.7.7
-  '@nutui/nutui-taro': ^3.1.8
+  '@nutui/nutui-taro': ^3.1.20
   '@tarojs/cli': 3.4.3
   '@tarojs/components': 3.4.3
   '@tarojs/mini-runner': 3.4.3
@@ -33,7 +33,7 @@ specifiers:
 
 dependencies:
   '@babel/runtime': 7.17.8
-  '@nutui/nutui-taro': 3.1.18_vue@3.2.31
+  '@nutui/nutui-taro': 3.1.20_vue@3.2.31
   '@tarojs/components': 3.4.3
   '@tarojs/plugin-framework-vue3': 3.4.3_vue@3.2.31
   '@tarojs/plugin-html': 3.4.3
@@ -1509,10 +1509,10 @@ packages:
       rimraf: 3.0.2
     dev: true
 
-  /@nutui/nutui-taro/3.1.18_vue@3.2.31:
-    resolution: {integrity: sha512-6dZ96ciDYl/cbO7cnrmnRTxPZtkY5EEmtd/Ddhyliy+GgqdHw/WemhYZbs33eprpiQo1kv8IX5byzjg/NOjkLg==}
+  /@nutui/nutui-taro/3.1.20_vue@3.2.31:
+    resolution: {integrity: sha512-ZQHBXYNrX/X7vTgU2X6GKv9FkfBnsmEvqLRX0IqxpxcksjjNsy9hbcx6XFl4MvYNkPE9/z1oN3Xge1N4fylxww==}
     dependencies:
-      sass: 1.32.13
+      sass: 1.51.0
       vue-router: 4.0.14_vue@3.2.31
     transitivePeerDependencies:
       - vue
@@ -7032,6 +7032,9 @@ packages:
       url-parse-lax: 3.0.0
     dev: true
 
+  /graceful-fs/4.2.10:
+    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
+
   /graceful-fs/4.2.9:
     resolution: {integrity: sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==}
 
@@ -7437,6 +7440,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /immutable/4.0.0:
+    resolution: {integrity: sha512-zIE9hX70qew5qTUjSS7wi1iwj/l7+m54KWU247nhM3v806UdGj1yDndXj+IOYxxtW9zyLI+xqFNZjTuDaLUqFw==}
+    dev: false
 
   /import-fresh/2.0.0:
     resolution: {integrity: sha1-2BNVwVYS04bGH53dOSLUMEgipUY=}
@@ -8492,7 +8499,7 @@ packages:
       tslib: 1.14.1
     optionalDependencies:
       errno: 0.1.8
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       image-size: 0.5.5
       make-dir: 2.1.0
       mime: 1.6.0
@@ -8510,7 +8517,7 @@ packages:
       tslib: 2.3.1
     optionalDependencies:
       errno: 0.1.8
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       image-size: 0.5.5
       make-dir: 2.1.0
       mime: 1.6.0
@@ -8539,7 +8546,7 @@ packages:
     resolution: {integrity: sha1-lWkFcI1YtLq0wiYbBPWfMcmTdMA=}
     engines: {node: '>=0.10.0'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       parse-json: 2.2.0
       pify: 2.3.0
       pinkie-promise: 2.0.1
@@ -8550,7 +8557,7 @@ packages:
     resolution: {integrity: sha1-L19Fq5HjMhYjT9U62rZo607AmTs=}
     engines: {node: '>=4'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       parse-json: 4.0.0
       pify: 3.0.0
       strip-bom: 3.0.0
@@ -8560,7 +8567,7 @@ packages:
     resolution: {integrity: sha512-G910TofXH7u0NfslAzqv6c9pHpvBzObNOo2hMG0/KUDpdHeFY0wE/fTBMExt0Gb12gg5bXS7Hj6pb0e+xbBXLA==}
     engines: {node: '>=4'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       js-yaml: 3.14.1
       pify: 2.3.0
       strip-bom: 3.0.0
@@ -10156,7 +10163,7 @@ packages:
     resolution: {integrity: sha1-WcRPfuSR2nBNpBXaWkBwuk+P5EE=}
     engines: {node: '>=0.10.0'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       pify: 2.3.0
       pinkie-promise: 2.0.1
     dev: true
@@ -11004,7 +11011,7 @@ packages:
     resolution: {integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==}
     engines: {node: '>=0.10'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       micromatch: 3.1.10
       readable-stream: 2.3.7
 
@@ -11618,12 +11625,14 @@ packages:
     dependencies:
       chokidar: 3.5.3
 
-  /sass/1.32.13:
-    resolution: {integrity: sha512-dEgI9nShraqP7cXQH+lEXVf73WOPCse0QlFzSD8k+1TcOxCMwVXfQlr0jtoluZysQOyJGnfr21dLvYKDJq8HkA==}
-    engines: {node: '>=8.9.0'}
+  /sass/1.51.0:
+    resolution: {integrity: sha512-haGdpTgywJTvHC2b91GSq+clTKGbtkkZmVAb82jZQN/wTy6qs8DdFm2lhEQbEwrY0QDRgSQ3xDurqM977C3noA==}
+    engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
       chokidar: 3.5.3
+      immutable: 4.0.0
+      source-map-js: 1.0.2
     dev: false
 
   /sax/1.2.4:
