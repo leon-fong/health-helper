@@ -3,7 +3,6 @@ export default defineAppConfig({
     'pages/profile/index',
     'pages/index/index',
     'pages/profile/edit',
-    'pages/analysis/index',
     'pages/record/index',
     'pages/profile/report',
     'pages/profile/recommend',
@@ -12,6 +11,15 @@ export default defineAppConfig({
     'pages/record/foodList',
     'pages/record/sportList',
     'pages/record/foodCompare'
+  ],
+  'subpackages':[
+    {
+      'root': 'module',
+      'pages':[
+        'pages/analysis/index',
+      ],
+      // "independent": true
+    }
   ],
   "tabBar": {
     "list": [
@@ -34,5 +42,6 @@ export default defineAppConfig({
     navigationBarBackgroundColor: '#fabb39',
     navigationBarTitleText: ' ',
     navigationBarTextStyle: 'white'
-  }
+  },
+  // lazyCodeLoading: "requiredComponents"
 })
