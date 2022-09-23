@@ -2,9 +2,9 @@
 <p align="center">一款帮您记录饮食、运动的健康小程序</p>
 <br/>
 <p align='center'>
-<img src='./static/firstPage.png' width='150'/>
-<img src='./static/home.png' width='150'/>
-<img src='./static/record.png' width='150'/>
+<img src='./static/firstPage.png' width='200'/>
+<img src='./static/home.png' width='200'/>
+<img src='./static/record.png' width='200'/>
 </p>
 <br/>
 
