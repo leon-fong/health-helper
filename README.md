@@ -1,4 +1,4 @@
-<h1 align="center"><p align="center"><a href="https://sesine.com/mina" target="_blank"><img src="./static/CarbonTheater.svg" width="128" hegiht="128" alt="logo"></a></p>🍎 健康助手小程序 🏃‍♂️</h1>
+<h1 align="center">🍎 健康助手小程序 🏃‍♂️</h1>
 <p align="center">一款帮您记录饮食、运动的健康小程序</p>
 <br/>
 <p align='center'>
