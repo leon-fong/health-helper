@@ -1,30 +1,11 @@
 {
   "name": "health-helper",
   "version": "1.0.0",
-  "private": true,
-  "description": "",
-  "templateInfo": {
-    "name": "vue3-NutUI",
-    "typescript": false,
-    "css": "sass"
-  },
+  "author": "Leon Fong<hey@leonfong.me>",
+  "description": "一款帮您记录饮食、运动的健康小程序",
   "scripts": {
-    "build:weapp": "taro build --type weapp",
-    "build:swan": "taro build --type swan",
-    "build:alipay": "taro build --type alipay",
-    "build:tt": "taro build --type tt",
-    "build:h5": "taro build --type h5",
-    "build:rn": "taro build --type rn",
-    "build:qq": "taro build --type qq",
-    "build:quickapp": "taro build --type quickapp",
-    "dev:weapp": "pnpm run build:weapp -- --watch",
-    "dev:swan": "pnpm run build:swan -- --watch",
-    "dev:alipay": "pnpm run build:alipay -- --watch",
-    "dev:tt": "pnpm run build:tt -- --watch",
-    "dev:h5": "pnpm run build:h5 -- --watch",
-    "dev:rn": "pnpm run build:rn -- --watch",
-    "dev:qq": "pnpm run build:qq -- --watch",
-    "dev:quickapp": "pnpm run build:quickapp -- --watch"
+    "build": "taro build --type weapp",
+    "dev": "taro build --type weapp --watch"
   },
   "browserslist": [
     "last 3 versions",
@@ -65,6 +46,5 @@
     "stylelint": "9.3.0",
     "terser-webpack-plugin": "3.0.5",
     "vue-loader": "^16.0.0-beta.8"
-  },
-  "author": "ooomydawn@hootmail.com"
+  }
 }
