@@ -1,10 +1,10 @@
-<h1 align="center">🍎 健康助手小程序 🏃‍♂️</h1>
+<h1 align="center">🍎 健康助手小程序</h1>
 <p align="center">一款帮您记录饮食、运动的健康小程序</p>
 <br/>
+
 <p align='center'>
-<img src='static/Group 1 (5) (1).png' height='400'/>
+<img src='static/Group 1 (5) (1).png' width='600'/>
 </p>
-<br/>
 
 ### 🌟 功能
 - 记录饮食（早中晚）、运动的数据 
