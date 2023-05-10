@@ -66,10 +66,12 @@ function genrateColumn() {
   <div class="nav" v-for="item in list" :key="item.label">
     <div class="box daily" :style="{ background: item.bg }" @click="handClick(item)">
       <i :class="['iconfont', item.icon]"></i>
+      <span></span>
     </div>
     <span class="value">{{ item.value }}</span>
   </div>
-  <nut-picker v-model:visible="isShow" :columns="multipleColumns" :title="pickerTitle" @close="isShow = false" @confirm="handleConfirm" />
+  <nut-picker v-model:visible="isShow" :columns="multipleColumns" :title="pickerTitle" @close="isShow = false"
+    @confirm="handleConfirm" />
 </template>
 
 <style lang="scss">
@@ -79,12 +81,14 @@ function genrateColumn() {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .value {
     font-size: 12px;
     color: #666;
     margin-top: 4px;
   }
 }
+
 .daily {
   display: flex;
   flex-direction: column;
@@ -92,7 +96,8 @@ function genrateColumn() {
   align-items: center;
   aspect-ratio: 1 / 1;
   margin-bottom: 0;
-  padding:15px;
+  padding: 15px;
+
   i {
     font-size: 30px;
     color: #fff;

@@ -2,7 +2,7 @@
 import { ref, unref, computed } from 'vue'
 import { baseUrl } from '~@/config/index'
 import _ from 'lodash'
-import Taro, { useRouter, EventChannel ,useReachBottom} from '@tarojs/taro'
+import Taro, { useRouter, EventChannel, useReachBottom } from '@tarojs/taro'
 import { getFoodList, recordDiet } from '~@/apis/record.js'
 let foodType = ''
 let isCompare = false
@@ -21,33 +21,35 @@ const checkedList = computed(() => {
 
 
 useReachBottom(() => {
-  if(page.value * pageSize == foodList.value.length ){
-    page.value = page.value+1
+  if (page.value * pageSize == foodList.value.length) {
+    page.value = page.value + 1
     createList()
-  }else{
+  } else {
     noMore.value = true
   }
 })
 
-function createList(){
-getFoodList(page.value,pageSize).then((res) => {
-  if (res.code === 0) {
-    res.data.items.forEach((item) => {
-      item.path = baseUrl + '/' + item.path
-      item.attrs = JSON.parse(item.attrs)
-      item.isChecked = false
-    })
- 
- 
-    if(res.data.items.length == pageSize){
-    foodList.value.push(...res.data.items)
-noMore.value = false
-    }else{
- foodList.value.push(...res.data.items)
-    noMore.value = true
+function createList() {
+  getFoodList(page.value, pageSize).then((res) => {
+    if (res.code === 0) {
+      const data = res.data.items.map((item) => {
+        return {
+          ...item,
+          path: baseUrl + '/' + item.path,
+          attrs: JSON.parse(item.attrs),
+          isChecked: false
+        }
+      })
+
+      if (data.length == pageSize) {
+        foodList.value.push(...data)
+        noMore.value = false
+      } else {
+        foodList.value.push(...data)
+        noMore.value = true
+      }
     }
-  }
-})
+  })
 }
 
 
@@ -142,17 +144,22 @@ const handleSubmit = () => {
   padding-bottom: constant(safe-area-inset-bottom + 60px);
   padding-bottom: calc(env(safe-area-inset-bottom) + 40px);
   box-sizing: border-box;
+
   .list {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 1px solid transparent;
   }
+
   .active {
     background-color: #eff8e9;
     color: #6ab840;
+    border: 1px solid #6ab840;
   }
 }
+
 .submit {
   width: 100%;
   position: fixed;
@@ -161,7 +168,7 @@ const handleSubmit = () => {
   background-color: #f4f4f4;
   padding-left: 20px;
   padding-right: 20px;
+  padding-top: 20px;
   box-sizing: border-box;
 }
-
 </style>

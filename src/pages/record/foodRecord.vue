@@ -22,13 +22,15 @@ const eatList = [
 ]
 
 const consume = ref(0)
-
+const visible = ref(false);
 const show = ref(false)
 const minDate = new Date(2020, 0, 1)
 const maxDate = new Date(2025, 10, 1)
 const today = new Date()
 const currentDate = ref(dayjs(today).format('YYYY-MM-DD'))
 const foodList = ref([])
+const resultList = ref([])
+const currentTempPath = ref('')
 
 const init = () => {
   getDietByDate(currentDate.value).then((res) => {
@@ -58,11 +60,122 @@ const handleClick = (type) => {
   })
 }
 const currentInstance = getCurrentInstance()
+
 const handleDelete = async (id, index) => {
   currentInstance.ctx.$refs.foodsRef[index].close()
   await deleteDiet(id)
   init()
 }
+
+const handleSelect = (index) => {
+  if (resultList.value[index]?.isChecked) return;
+  resultList.value = resultList.value.map(item => {
+    if (item.isChecked && item !== resultList.value[index]) {
+      return { ...item, isChecked: false };
+    } else if (item === resultList.value[index]) {
+      return { ...item, isChecked: true };
+    } else {
+      return item;
+    }
+  });
+}
+
+const handleConfirm = () => {
+  const checked = resultList.value.filter(item => item.isChecked)
+  Taro.uploadFile({
+    url: baseUrl + '/admin/addFood',
+    filePath: currentTempPath.value,
+    name: "file",
+    header: {
+      chartset: "utf-8",
+      "content-type": "multipart/form-data"
+    },
+    formData: {
+      token: '',
+      name: checked[0].name,
+      attrs: JSON.stringify({ "protein": { "name": "蛋白质含量(%)", "value": "-" }, "fat": { "name": "脂肪含量(%)", "value": "-" }, "carbohydrate": { "name": "碳水化合物含量(%)", "value": "-" }, "inorganicSalt": { "name": "无机盐含量(%)", "value": "-" }, "calories": { "name": "卡路里", "value": checked[0].calorie }, "type": { "name": "饮食来源", "value": "BaiduAi" } })
+    },
+    success: (result) => {
+      if (result.statusCode === 200) {
+        const data = JSON.parse(result.data)
+        if (data.code === 0) {
+          Taro.showToast({
+            title: '已添加',
+            icon: 'success',
+            duration: 1500,
+          })
+        } else {
+          Taro.showToast({
+            title: data.msg,
+            icon: 'none',
+            duration: 1500,
+          })
+          console.log('出错了～', data.msg);
+        }
+      }
+    },
+    fail: function (e) {
+
+    }
+  })
+}
+
+const handleScan = () => {
+  Taro.chooseMedia({
+    count: 1,
+    mediaType: ['image'],
+    sizeType: ['compressed'],
+    success: (res) => {
+      const tempFilePaths = res.tempFiles[0].tempFilePath;
+      const tempFilesSize = res.tempFiles[0].size; //获取图片的大小，单位B
+
+      if (tempFilesSize <= 3000000) {
+        //图片小于或者等于3M时 可以继续
+        Taro.uploadFile({
+          url: baseUrl + '/food/dishRecognition',
+          filePath: tempFilePaths,
+          name: "file",
+          header: {
+            chartset: "utf-8",
+            "content-type": "multipart/form-data"
+          },
+          formData: {
+            token: '',
+            type: 'BaiduAi'
+          },
+          success: (result) => {
+            if (result.statusCode === 200) {
+              const data = JSON.parse(result.data)
+              if (data.code === 0) {
+                visible.value = true;
+                currentTempPath.value = tempFilePaths
+                resultList.value = data.data.items
+                resultList.value[0].isChecked = true
+                console.log(data.data);
+              } else {
+                Taro.showToast({
+                  title: data.msg,
+                  icon: 'none',
+                  duration: 1500,
+                })
+                console.log('出错了～', data.msg);
+              }
+            }
+          },
+          fail: function (e) {
+
+          }
+        })
+      } else {
+        Taro.showToast({
+          title: "上传图片不能大于3M哦～",
+          icon: "error"
+        })
+      }
+    }
+  })
+}
+
 </script>
 
 <template>
@@ -97,23 +210,51 @@ const handleDelete = async (id, index) => {
             </template>
           </nut-cell>
           <template #right>
-            <nut-button shape="square" style="height: 100%" @click="handleDelete(food.id, index)" type="danger">删除</nut-button>
+            <nut-button shape="square" style="height: 100%" @click="handleDelete(food.id, index)"
+              type="danger">删除</nut-button>
           </template>
         </nut-swipe>
       </div>
     </div>
+    <div class="submit safe-area-bottom">
+      <nut-button block type="primary" icon="photograph" @click="handleScan">菜品识别</nut-button>
+    </div>
   </div>
-  <nut-datepicker v-model="today" v-model:visible="show" :min-date="minDate" :max-date="maxDate" @confirm="confirm"></nut-datepicker>
+  <nut-datepicker v-model="today" v-model:visible="show" :min-date="minDate" :max-date="maxDate"
+    @confirm="confirm"></nut-datepicker>
+  <nut-dialog title="识别结果" v-model:visible="visible" @ok="handleConfirm">
+
+    <div v-for="(item, index) in resultList" :key="item.probability" @click="handleSelect(index)">
+      <div class="result__list" :class="{ result__active: item.isChecked }">
+        <div class="left" style="display: flex;align-items: center;">
+          <nut-avatar size="normal" style="vertical-align: middle" :icon="currentTempPath"></nut-avatar>
+          <div style="display: flex; flex-direction: column; margin-left: 10px">
+            <span class="ellipsis">{{ item.name }}</span>
+            <span class="ellipsis" style=" font-size: 10px; color: #ccc;">{{ (item.probability *
+              100).toFixed(2) + '%' }}</span>
+          </div>
+        </div>
+        <div class="right">
+          <span style="color: #f00">{{ item.calorie }}</span>
+          <span style="opacity: 0.5"> 千卡</span>
+        </div>
+      </div>
+    </div>
+  </nut-dialog>
 </template>
 
 <style lang="scss">
 .food-record {
   padding: 0 20px;
   height: 100vh;
+  padding-bottom: constant(safe-area-inset-bottom + 100px);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 100px);
+
   .menu {
     display: flex;
     justify-content: space-between;
     gap: 20px;
+
     .top {
       display: flex;
       align-items: center;
@@ -122,30 +263,36 @@ const handleDelete = async (id, index) => {
       margin-top: 20px;
     }
   }
+
   .content {
     background-color: #fff;
     margin: 10px 0;
     border-radius: 13px;
     overflow: hidden;
     box-sizing: border-box;
+
     .top {
       display: flex;
       justify-content: space-between;
       margin: 5px 0;
       padding: 12px 18px;
+
       .title {
         font-weight: bold;
         font-size: 17px;
       }
     }
+
     .history {
       .food-item {
         border-top: 1rpx solid #f5f5f5;
         width: 100%;
+
         .item-cell {
           display: flex;
           justify-content: space-between;
           align-items: center;
+
           .title {
             color: #555;
             font-size: 14px;
@@ -158,6 +305,20 @@ const handleDelete = async (id, index) => {
         }
       }
     }
+  }
+
+
+
+  .submit {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #f4f4f4;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    box-sizing: border-box;
   }
 }
 </style>

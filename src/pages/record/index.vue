@@ -104,7 +104,7 @@ Page {
 
         .text {
           font-size: 14px;
-          color: #fbddb2;
+          color: #fff;
         }
       }
 

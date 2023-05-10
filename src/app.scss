@@ -53,3 +53,23 @@ page {
   font-size:12px;
   color:#ccc;
 }
+
+ .result__list {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   border: 1px solid transparent;
+   margin: 10px 0;
+   box-sizing: border-box;
+   background-color: #F4F4F4;
+   padding: 12px 18px;
+   border-radius: 13px;
+   overflow: hidden;
+ }
+
+ .result__active {
+   background-color: #eff8e9;
+   color: #6ab840;
+   border: 1px solid #6ab840;
+ }
