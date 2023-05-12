@@ -48,7 +48,7 @@ const consume = ref(0)
 const sportConsume = ref(0)
 const toFoodRecord = () => {
   Taro.navigateTo({
-    url: '/pages/record/foodRecord',
+    url: '/pages/record/foodRecord?recommendCalorie=' + calorie.value,
   })
 }
 const toSportRecord = () => {
