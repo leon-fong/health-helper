@@ -1,6 +1,6 @@
 <script setup>
 import { floatMul } from '~@/utils/tool.js'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { addDaily } from '~@/apis/record.js'
 import _ from 'lodash'
 const list = ref([
@@ -35,11 +35,10 @@ const list = ref([
 ])
 
 const multipleColumns = genrateColumn()
-
 const pickerTitle = ref('')
-
 const isShow = ref(false)
 const currentType = ref('')
+const defaultValue = ref([50])
 
 const handClick = (item) => {
   isShow.value = true
@@ -53,6 +52,12 @@ const handleConfirm = ({ selectedValue }) => {
     [currentType.value]: result,
   }
   addDaily(options)
+  defaultValue.value = [50]
+}
+
+const handleClose = () => {
+  isShow.value = false
+  defaultValue.value = [50]
 }
 
 function genrateColumn() {
@@ -70,8 +75,8 @@ function genrateColumn() {
     </div>
     <span class="value">{{ item.value }}</span>
   </div>
-  <nut-picker v-model:visible="isShow" :columns="multipleColumns" :title="pickerTitle" @close="isShow = false"
-    @confirm="handleConfirm" />
+  <nut-picker v-model="defaultValue" v-model:visible="isShow" :columns="multipleColumns" :title="pickerTitle"
+    @close="handleClose" @confirm="handleConfirm" />
 </template>
 
 <style lang="scss">
