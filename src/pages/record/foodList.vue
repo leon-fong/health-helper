@@ -2,7 +2,7 @@
 import { ref, unref, computed } from 'vue'
 import { baseUrl } from '~@/config/index'
 import _ from 'lodash'
-import Taro, { useRouter, EventChannel, useReachBottom } from '@tarojs/taro'
+import Taro, { useRouter, useReachBottom } from '@tarojs/taro'
 import { getFoodList, recordDiet } from '~@/apis/record.js'
 let foodType = ''
 let isCompare = false
@@ -121,7 +121,11 @@ const handleSubmit = () => {
     <div v-for="(item, index) in foodList" :key="item.id" @click="handleSelect(index)">
       <div class="list box" :class="{ active: item.isChecked }">
         <div class="left">
-          <nut-avatar size="normal" style="vertical-align: middle" :icon="item.path"></nut-avatar>
+          <nut-avatar v-if="item.attrs.type.value === 'Default'" size="normal" style="vertical-align: middle"
+            :icon="item.path" />
+          <nut-badge v-else value="AI" top="5" right="10">
+            <nut-avatar size="normal" style="vertical-align: middle" :icon="item.path" />
+          </nut-badge>
           <span class="ellipsis" style="margin-left: 10px">{{ item.name }}</span>
         </div>
         <div class="right">
@@ -170,5 +174,6 @@ const handleSubmit = () => {
   padding-right: 20px;
   padding-top: 20px;
   box-sizing: border-box;
+  z-index: 10;
 }
 </style>
