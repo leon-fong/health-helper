@@ -1,23 +1,20 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import Taro from '@tarojs/taro'
-
-
+import '@tarojs/taro/html.css';
+import 'normalize.css/normalize.css';
+import './app.scss'
+import './styles/iconfont.css'
 import {
   Button, Radio, NumberKeyboard,
   OverLay, Picker, Popup, DatePicker,
   RadioGroup, Tabs, TabPane, Form, FormItem, Icon
   , Cell, CellGroup, Avatar,
   Swipe, Swiper, SwiperItem, Table
-  , Input, Dialog
+  , Input, Dialog, Badge
 } from '@nutui/nutui-taro';
 
-import '@tarojs/taro/html.css';
-import 'normalize.css/normalize.css';
-import './app.scss'
-import './styles/iconfont.css'
-
-const doLogin = async () => {
+const doLogin = () => {
   const token = Taro.getStorageSync('token')
   if (!token) {
     Taro.reLaunch({
@@ -26,15 +23,11 @@ const doLogin = async () => {
   }
 }
 
-
 const App = createApp({
   onLaunch() {
     doLogin()
   }
 })
-
-
-
 
 App.use(Button).use(Form)
   .use(FormItem).use(Icon).use(Avatar)
@@ -43,7 +36,8 @@ App.use(Button).use(Form)
   .use(Input).use(Popup).use(OverLay)
   .use(Tabs).use(TabPane).use(Swipe)
   .use(Swiper).use(SwiperItem).use(Table)
-  .use(DatePicker).use(Picker).use(NumberKeyboard).use(Dialog)
+  .use(DatePicker).use(Picker).use(NumberKeyboard).use(Dialog).use(Badge)
 
 App.use(createPinia())
+
 export default App

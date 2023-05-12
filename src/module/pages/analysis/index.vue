@@ -175,6 +175,12 @@ function createList() {
         noMore.value = true
       }
     }
+  }).catch(err => {
+    Taro.showToast({
+      icon: 'none',
+      title: '出错了，请查看控制台～'
+    })
+    console.error('出错了：请确保MYSQL版本高于8.0');
   })
 }
 
@@ -207,6 +213,7 @@ Taro.nextTick(() => {
 .record {
   width: 100%;
   height: calc(100vh - 100px);
+
   .toggle {
     display: flex;
     height: 60rpx;
@@ -216,6 +223,7 @@ Taro.nextTick(() => {
     padding: 0 10px;
   }
 }
+
 .nut-tabpane {
   padding: 0;
 }
