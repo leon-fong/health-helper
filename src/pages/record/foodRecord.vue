@@ -1,10 +1,10 @@
 <script setup>
 import dayjs from 'dayjs'
 import { getCurrentInstance } from 'vue'
-import Taro, { useDidShow } from '@tarojs/taro'
+import Taro, { useDidShow, useRouter } from '@tarojs/taro'
 import { getDietByDate, deleteDiet } from '~@/apis/record.js'
 import { baseUrl } from '~@/config/index'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const eatList = [
   {
@@ -31,7 +31,8 @@ const currentDate = ref(dayjs(today).format('YYYY-MM-DD'))
 const foodList = ref([])
 const resultList = ref([])
 const currentTempPath = ref('')
-
+const currentInstance = getCurrentInstance()
+const router = useRouter()
 const init = () => {
   getDietByDate(currentDate.value).then((res) => {
     if (res.code === 0) {
@@ -46,6 +47,8 @@ useDidShow(() => {
   init()
 })
 
+const isCheckedToday = computed(() => currentDate.value === dayjs(today).format('YYYY-MM-DD'))
+
 const confirm = ({ selectedValue, selectedOptions }) => {
   const value = selectedOptions.map((option) => option.text).join('-')
   currentDate.value = value
@@ -54,12 +57,30 @@ const confirm = ({ selectedValue, selectedOptions }) => {
 
 const handleClick = (type) => {
   // 禁止在非今天添加食物记录
-  if (currentDate.value !== dayjs(today).format('YYYY-MM-DD')) return
-  Taro.navigateTo({
-    url: '/pages/record/foodList?type=' + type,
-  })
+  if (!isCheckedToday.value) return
+
+  const recommend = Number(router.params.recommendCalorie || 0)
+  if (consume.value > recommend) {
+    Taro.showModal({
+      title: '提示',
+      content: '当前已超过推荐热量值，确定要继续添加吗？',
+      success: function (res) {
+        if (res.confirm) {
+          Taro.navigateTo({
+            url: '/pages/record/foodList?type=' + type,
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  } else {
+    Taro.navigateTo({
+      url: '/pages/record/foodList?type=' + type,
+    })
+  }
+
 }
-const currentInstance = getCurrentInstance()
 
 const handleDelete = async (id, index) => {
   currentInstance.ctx.$refs.foodsRef[index].close()
@@ -82,9 +103,11 @@ const handleSelect = (index) => {
 
 const handleConfirm = () => {
   const checked = resultList.value.filter(item => item.isChecked)
+  // const filePath = /\.jpg$/.test(currentTempPath.value) ? currentTempPath.value.replace(/\.jpg$/, ".jpeg") : currentTempPath.value
+  const filePath = currentTempPath.value
   Taro.uploadFile({
     url: baseUrl + '/admin/addFood',
-    filePath: currentTempPath.value,
+    filePath,
     name: "file",
     header: {
       chartset: "utf-8",
@@ -131,6 +154,9 @@ const handleScan = () => {
 
       if (tempFilesSize <= 3000000) {
         //图片小于或者等于3M时 可以继续
+        Taro.showLoading({
+          title: '识别中...'
+        })
         Taro.uploadFile({
           url: baseUrl + '/food/dishRecognition',
           filePath: tempFilePaths,
@@ -144,14 +170,14 @@ const handleScan = () => {
             type: 'BaiduAi'
           },
           success: (result) => {
+            Taro.hideLoading()
             if (result.statusCode === 200) {
               const data = JSON.parse(result.data)
               if (data.code === 0) {
                 visible.value = true;
                 currentTempPath.value = tempFilePaths
-                resultList.value = data.data.items
+                resultList.value = data.data.items.filter(item => item.calorie)
                 resultList.value[0].isChecked = true
-                console.log(data.data);
               } else {
                 Taro.showToast({
                   title: data.msg,
@@ -163,7 +189,11 @@ const handleScan = () => {
             }
           },
           fail: function (e) {
-
+            Taro.hideLoading()
+            Taro.showToast({
+              icon: 'none',
+              title: '识别失败～'
+            })
           }
         })
       } else {
@@ -193,7 +223,7 @@ const handleScan = () => {
     <div v-for="item in eatList" :key="item.value" class="content">
       <div class="top" @click="handleClick(item.value)">
         <div class="title">{{ item.label }}</div>
-        <nut-icon name="plus"></nut-icon>
+        <nut-icon v-show="isCheckedToday" name="plus" size="24"></nut-icon>
       </div>
       <div class="history">
         <nut-swipe ref="foodsRef" class="food-item" v-for="(food, index) in foodList[item.value]">
@@ -217,7 +247,7 @@ const handleScan = () => {
       </div>
     </div>
     <div class="submit safe-area-bottom">
-      <nut-button block type="primary" icon="photograph" @click="handleScan">菜品识别</nut-button>
+      <nut-button block type="primary" icon="photograph" @click="handleScan">AI 菜品识别</nut-button>
     </div>
   </div>
   <nut-datepicker v-model="today" v-model:visible="show" :min-date="minDate" :max-date="maxDate"
@@ -246,9 +276,8 @@ const handleScan = () => {
 <style lang="scss">
 .food-record {
   padding: 0 20px;
-  height: 100vh;
-  padding-bottom: constant(safe-area-inset-bottom + 100px);
-  padding-bottom: calc(env(safe-area-inset-bottom) + 100px);
+  height: calc(100vh - 70px - env(safe-area-inset-bottom));
+  overflow-y: auto;
 
   .menu {
     display: flex;
