@@ -31,13 +31,39 @@
 </template>
 
 <script setup>
-import { computed, defineEmits } from 'vue'
+import { computed } from 'vue'
 import { useStore } from '~@/store'
+import Taro from '@tarojs/taro'
+
 const auth = useStore('auth')
-const userInfo = computed(() => auth.userInfo)
+const userInfo = computed(() => {
+
+  const info = auth.userInfo
+  if (Object.keys(info).length !== 0) {
+    const { age, weight, height } = info
+    if (!age || !weight || !height) {
+      Taro.showModal({
+        title: '提示',
+        content: '请完善个人信息',
+        success: function (res) {
+          if (res.confirm) {
+            handleEdit()
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
+  }
+  return info
+})
+
+
 const emit = defineEmits(['edit'])
 auth.login()
 auth.setUserInfo()
+
+
 
 const handleEdit = () => {
   emit('edit')
@@ -53,10 +79,12 @@ const handleEdit = () => {
     padding: 12px 18px;
     border-radius: 13px;
   }
+
   .head {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
     .left {
       position: absolute;
       top: -25%;
@@ -72,27 +100,33 @@ const handleEdit = () => {
       }
     }
   }
+
   .content {
     margin-top: 40px;
+
     ul {
       margin: 0;
       padding: 0;
       list-style: none;
       display: flex;
       justify-content: space-between;
+
       li {
         margin: 0;
         padding: 0;
         display: flex;
         flex-direction: column;
+
         span {
           text-align: center;
           font-size: 16px;
         }
+
         .num {
           font-size: 18px;
           font-weight: bold;
         }
+
         .attr {
           font-size: 12px;
           margin-top: 3px;
