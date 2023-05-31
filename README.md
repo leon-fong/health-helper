@@ -35,4 +35,4 @@
 
 ### 📝 License
 
-MIT License © 2023 Leon Fong
+[MIT](https://github.com/leon-fong/health-helper/blob/main/LICENSE)
