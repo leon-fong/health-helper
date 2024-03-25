@@ -26,6 +26,11 @@
 - 提交 PR
 
 
+## 扫码体验
+> 由于上线需要相关资质，所以仅提交了体验版，使用微信扫码申请体验
+
+![image](https://github.com/leon-fong/health-helper/assets/45456105/048d9d64-b4e0-44ce-9753-1ec4d055c0c2)
+
 > 如需项目后端 (JAVA) 代码支持，请邮箱联系 `ooohmydawn@hotmail.com`
 
 
