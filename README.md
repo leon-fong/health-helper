@@ -2,6 +2,10 @@
 
 ![health-helper](static/screenshot.png)
 
+> [!IMPORTANT]
+> 如需项目后端 (Java) 代码支持，请 [点击此处提交表单](https://pr622qgytz.feishu.cn/share/base/form/shrcnPZelendm4ljXVg8hsuJGtd)
+
+
 ## 功能
 - 记录饮食（早中晚）、运动的数据
 - 自动生成健康报告/分析
@@ -24,9 +28,6 @@
 - 提交你的更改内容 `git commit -m 'Add some AmazingFeature'`
 - 推送到该分支 `git push origin feat/AmazingFeature`
 - 提交 PR
-
-
-> 如需项目后端 (JAVA) 代码支持，请邮箱联系 `ooohmydawn@hotmail.com`
 
 
 ## License
