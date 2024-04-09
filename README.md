@@ -1,19 +1,14 @@
 # 健康助手
-
 ![health-helper](static/screenshot.png)
 
 > [!IMPORTANT]
-> 如需项目后端 (Java) 代码支持，请 [点击此处提交表单](https://pr622qgytz.feishu.cn/share/base/form/shrcnPZelendm4ljXVg8hsuJGtd)
+> 如需项目后端 (Java) 代码支持，请 [点击提交表单](https://pr622qgytz.feishu.cn/share/base/form/shrcnPZelendm4ljXVg8hsuJGtd)
 
 
 ## 功能
-- 记录饮食（早中晚）、运动的数据
-- 自动生成健康报告/分析
-- 个性化推荐食谱
-- 智能计算推荐摄入蛋白质
-- 食物多项数据含量对比
-- 同步微信步数
-- AI 菜品识别 <b>(新增)</b>
+![image](https://github.com/leon-fong/health-helper/assets/45456105/3b79b4d2-e144-4676-b94c-cc98e6745201)
+![intro1](https://github.com/leon-fong/health-helper/assets/45456105/80ccf1d6-f6eb-4e61-ad69-67dcf76f1bfe)
+![intro2](https://github.com/leon-fong/health-helper/assets/45456105/0e9e3dcc-0c77-40d7-ab74-1313a1045096)
 
 ## 使用
 - 克隆或下载此项目
