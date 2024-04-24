@@ -5,7 +5,7 @@
   "description": "一款帮您记录饮食、运动的健康小程序",
   "scripts": {
     "build": "taro build --type weapp",
-    "dev": "taro build --type weapp --watch"
+    "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && taro build --type weapp --watch"
   },
   "browserslist": [
     "last 3 versions",
