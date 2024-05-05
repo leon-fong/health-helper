@@ -1,8 +1,9 @@
 import request from '~@/utils/request.js'
 
 export function getFoodList(page = 1, pageSize = 10) {
-  return request.get('/food/list', {
+  return request.get('/admin/resources', {
     data: {
+      type: 'Food',
       page, pageSize
     }
   })
@@ -31,8 +32,9 @@ export function addDaily(options) {
   return request.post('/info', options)
 }
 export function getSportList(page = 1, pageSize = 10) {
-  return request.get('/sport/list', {
+  return request.get('/admin/resources', {
     data: {
+      type: 'Sport',
       page, pageSize
     }
   })

@@ -32,14 +32,17 @@ useReachBottom(() => {
 function createList() {
   getFoodList(page.value, pageSize).then((res) => {
     if (res.code === 0) {
-      const data = res.data.items.map((item) => {
+      const data = res.data.items.map(({ attrs, ...rest }) => {
+        const attr = Object.fromEntries(attrs.map(({ name, value }) => [name, value]));
         return {
-          ...item,
-          path: baseUrl + '/' + item.path,
-          attrs: JSON.parse(item.attrs),
+          ...attr,
+          ...rest,
           isChecked: false
-        }
-      })
+        };
+      });
+
+      console.log(data)
+
 
       if (data.length == pageSize) {
         foodList.value.push(...data)
@@ -72,10 +75,12 @@ const handleSelect = (index) => {
 createList()
 
 async function forRecord() {
-  const list = _.map(unref(checkedList), (item) => {
+  const list = _.map(unref(checkedList), 
+  (item) => {
     return {
-      foodId: item.id,
-      caloriesBurned: Number(item.attrs.calories.value),
+      foodName:item.name,
+      foodPath:item.path,
+      caloriesBurned: Number(item.calories),
     }
   })
   const options = {
@@ -121,15 +126,14 @@ const handleSubmit = () => {
     <div v-for="(item, index) in foodList" :key="item.id" @click="handleSelect(index)">
       <div class="list box" :class="{ active: item.isChecked }">
         <div class="left">
-          <nut-avatar v-if="item.attrs.type.value === 'Default'" size="normal" style="vertical-align: middle"
-            :icon="item.path" />
-          <nut-badge v-else value="AI" top="5" right="10">
+          <nut-avatar size="normal" style="vertical-align: middle" :icon="baseUrl + '/' + item.path" />
+          <!-- <nut-badge v-else value="AI" top="5" right="10">
             <nut-avatar size="normal" style="vertical-align: middle" :icon="item.path" />
-          </nut-badge>
+          </nut-badge> -->
           <span class="ellipsis" style="margin-left: 10px">{{ item.name }}</span>
         </div>
         <div class="right">
-          <span style="color: #f00">{{ item.attrs.calories.value }}</span>
+          <span style="color: #f00">{{ item?.calories }}</span>
           <span style="opacity: 0.5"> 千卡</span>
         </div>
       </div>

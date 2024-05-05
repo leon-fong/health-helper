@@ -26,14 +26,20 @@ useReachBottom(() => {
 function createList() {
   getSportList(page.value, pageSize).then((res) => {
     if (res.code === 0) {
-      res.data.items.forEach((item) => {
-        item.path = baseUrl + '/' + item.path
-      })
-      if (res.data.items.length == pageSize) {
-        sportList.value.push(...res.data.items)
+      const data = res.data.items.map(({ attrs, ...rest }) => {
+        const attr = Object.fromEntries(attrs.map(({ name, value }) => [name, value]));
+        return {
+          ...attr,
+          ...rest,
+        };
+      });
+
+
+      if (data.length == pageSize) {
+        sportList.value.push(...data)
         noMore.value = false
       } else {
-        sportList.value.push(...res.data.items)
+        sportList.value.push(...data)
         noMore.value = true
       }
     }
@@ -56,10 +62,11 @@ const handleSubmit = async () => {
   const duration = Number(currentValue.value)
   const item = currentItem.value
   const options = {
-    sportId: item.id,
+    sportName: item.name,
+    sportPath: item.path,
     duration: duration,
     durationUnit: 'min',
-    caloriesBurned: (duration * Number(item.caloriesBurned)) / 60,
+    caloriesBurned: (duration * Number(item.calories)) / 60,
   }
   const res = await recordSport([options])
 
@@ -80,17 +87,18 @@ const handleSubmit = async () => {
     <div v-for="(item, index) in sportList" :key="item.id" @click="handleSelect(item)">
       <div class="list box">
         <div class="left">
-          <nut-avatar size="normal" style="vertical-align: middle" :icon="item.path"></nut-avatar>
+          <nut-avatar size="normal" style="vertical-align: middle" :icon="baseUrl + '/' +item.path"></nut-avatar>
           <span class="ellipsis" style="margin-left: 10px">{{ item.name }}</span>
         </div>
         <div class="right">
-          <span style="color: #f00">{{ item.caloriesBurned }}</span>
+          <span style="color: #f00">{{ item.calories }}</span>
           <span style="opacity: 0.5"> 千卡/60分钟</span>
         </div>
       </div>
     </div>
     <div class="nomore" v-if="noMore">暂无更多数据</div>
-    <nut-numberkeyboard :title="(currentValue || 0) + ' 分钟'" :overlay="true" v-model:value="currentValue" v-model:visible="isShow" :custom-key="customKey" @close="handleSubmit">
+    <nut-numberkeyboard :title="(currentValue || 0) + ' 分钟'" :overlay="true" v-model:value="currentValue"
+      v-model:visible="isShow" :custom-key="customKey" @close="handleSubmit">
     </nut-numberkeyboard>
   </div>
 </template>
@@ -102,12 +110,14 @@ const handleSubmit = async () => {
   padding-bottom: constant(safe-area-inset-bottom + 60px);
   padding-bottom: calc(env(safe-area-inset-bottom) + 40px);
   box-sizing: border-box;
+
   .list {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+
   .active {
     background-color: #eff8e9;
     color: #6ab840;

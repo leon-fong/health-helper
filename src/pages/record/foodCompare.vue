@@ -1,6 +1,7 @@
 <script setup>
 import Taro from '@tarojs/taro'
 import { ref } from 'vue'
+import { baseUrl } from '~@/config/index'
 const category = ['热量(千卡)', '蛋白质(克)', '脂肪(克)', '碳水化合物(克)', '无机盐(克)']
 const list = ref([])
 const isShow = ref(false)
@@ -22,7 +23,6 @@ const toAdd = () => {
   })
 }
 </script>
-
 <template>
   <div class="compare">
     <div v-if="isShow">
@@ -37,14 +37,14 @@ const toAdd = () => {
           <template v-for="item in list" :key="item.id">
             <div class="content-item">
               <div class="item-avatar">
-                <nut-avatar size="normal" style="vertical-align: middle" :icon="item.path"></nut-avatar>
+                <nut-avatar size="normal" style="vertical-align: middle" :icon="baseUrl + '/'+ item.path"></nut-avatar>
                 <span class="ellipsis name">{{ item.name }}</span>
               </div>
-              <span>{{ item.attrs.calories.value }}</span>
-              <span>{{ item.attrs.protein.value }}</span>
-              <span>{{ item.attrs.fat.value }}</span>
-              <span>{{ item.attrs.carbohydrate.value }}</span>
-              <span>{{ item.attrs.inorganicSalt.value }}</span>
+              <span>{{ item.calories }}</span>
+              <span>{{ item.protein }}</span>
+              <span>{{ item.fat }}</span>
+              <span>{{ item.carbohydrate }}</span>
+              <span>{{ item.inorganicSalt }}</span>
             </div>
           </template>
         </div>
@@ -69,6 +69,7 @@ const toAdd = () => {
   gap: 10px;
   color: #666;
   height: 100vh;
+
   .add {
     border-radius: 13px;
     background-color: #fff;
@@ -84,6 +85,7 @@ const toAdd = () => {
 .group {
   display: flex;
   justify-content: space-evenly;
+
   span {
     margin: 0;
     display: block;
@@ -95,24 +97,29 @@ const toAdd = () => {
     border-bottom: 1rpx solid #e8eaee;
     width: 100%;
   }
+
   .category {
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: #e8eaed;
+
     &-title {
       height: 80px;
       line-height: 80px;
       text-align: center;
     }
   }
+
   .content {
     display: flex;
     justify-content: space-evenly;
+
     .content-item {
       display: flex;
       flex-direction: column;
       width: 50%;
+
       .item-avatar {
         display: flex;
         flex-direction: column;
@@ -123,6 +130,7 @@ const toAdd = () => {
         line-height: 80px;
       }
     }
+
     .content-item:first-child {
       border-right: 1rpx solid #e8eaed;
     }

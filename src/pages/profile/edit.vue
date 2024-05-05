@@ -16,11 +16,10 @@
       <nut-form-item label="年龄" body-align="right">
         <nut-input :border="false" placeholder="岁" v-model="form.age" :hasBorder="false" max-length="2" input-align="right" type="number" />
       </nut-form-item>
-      <!-- <nut-form-item label="运动目标" body-align="right"> -->
-      <!-- <nut-input :border="false" placeholder="目标" v-model="type" :hasBorder="false" input-align="right" readonly @click="isShow = true" /> -->
-      <nut-cell title="运动目标" :desc="formatType" @click="isShow = true"></nut-cell>
-      <nut-picker v-model:visible="isShow" :columns="multipleColumns" title="运动目标" @close="isShow = false" @confirm="handleConfirm" />
-      <!-- </nut-form-item> -->
+    
+      <nut-cell title="运动等级" :desc="formatType" @click="isShow = true"></nut-cell>
+      <nut-picker v-model:visible="isShow" :columns="multipleColumns" title="运动等级" @close="isShow = false" @confirm="handleConfirm" />
+
     </nut-form>
     <div class="submit safe-area-bottom">
       <nut-button block :disabled="isDisabled" type="primary" @click="handleSubmit">保 存</nut-button>
@@ -39,10 +38,10 @@ const auth = useStore('auth')
 const userInfo = computed(() => auth.userInfo)
 
 const SPORTTYPES = {
-  infrequentExercise: '不经常运动',
-  moderateExercise: '适量运动',
-  exerciseRegularly: '经常运动',
-  lotsOfExercise: '大量运动',
+  infrequentExercise: '低',
+  moderateExercise: '中',
+  exerciseRegularly: '高',
+  lotsOfExercise: '很高',
 }
 
 const formatType = computed(() => {
@@ -51,10 +50,10 @@ const formatType = computed(() => {
 
 const multipleColumns = [
   [
-    { text: '不经常运动', value: 'infrequentExercise' },
-    { text: '适量运动', value: 'moderateExercise' },
-    { text: '经常运动', value: 'exerciseRegularly' },
-    { text: '大量运动', value: 'lotsOfExercise' },
+    { text: '低', value: 'infrequentExercise' },
+    { text: '中', value: 'moderateExercise' },
+    { text: '高', value: 'exerciseRegularly' },
+    { text: '很高', value: 'lotsOfExercise' },
   ],
 ]
 

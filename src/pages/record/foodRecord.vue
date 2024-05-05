@@ -246,9 +246,9 @@ const handleScan = () => {
         </nut-swipe>
       </div>
     </div>
-    <div class="submit safe-area-bottom">
+    <!-- <div class="submit safe-area-bottom">
       <nut-button block type="primary" icon="photograph" @click="handleScan">AI 菜品识别</nut-button>
-    </div>
+    </div> -->
   </div>
   <nut-datepicker v-model="today" v-model:visible="show" :min-date="minDate" :max-date="maxDate"
     @confirm="confirm"></nut-datepicker>
